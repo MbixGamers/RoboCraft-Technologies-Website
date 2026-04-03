@@ -1,27 +1,27 @@
 const testimonials = [
   {
-    name: "Sarah Chen",
-    role: "Senior Developer",
-    image:
-      "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200",
-    content:
-      "This AI-powered development platform has revolutionized how we write code. The intelligent suggestions save us hours every day.",
-  },
-  {
-    name: "Marcus Rodriguez",
-    role: "Tech Lead",
+    name: "Aditya Sharma",
+    role: "Electronics Hobbyist",
     image:
       "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200",
     content:
-      "The automated testing and debugging features are game-changers. We ship code faster and with more confidence than ever before.",
+      "RoboCraft's project guides are exceptional. I built my first Arduino robot arm following one of the schematics here — every step was crystal clear.",
   },
   {
-    name: "Emily Watson",
-    role: "CTO",
+    name: "Priya Nair",
+    role: "IoT Developer",
+    image:
+      "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200",
+    content:
+      "The ESP32 projects saved me hours of research. Having the circuit diagram, materials list, and code all in one place is exactly what the maker community needed.",
+  },
+  {
+    name: "Rohan Mehta",
+    role: "Engineering Student",
     image:
       "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=200",
     content:
-      "Our development velocity increased by 300% since adopting this platform. It's like having a senior developer pair programming with every team member.",
+      "I used the Raspberry Pi Pico guides for my final year project. The step-by-step procedure and commented code helped me understand the hardware deeply.",
   },
 ];
 
@@ -36,16 +36,15 @@ export default function Testimonials() {
           {/* Left side - Header */}
           <div className="lg:w-1/2 w-full text-center lg:text-left">
             <h2 className="text-5xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
-              What developers are saying about us
+              What our maker community is saying
             </h2>
             <p className="text-gray-400 text-base text-xl sm:text-lg max-w-2xl mx-auto">
-              Everything you need to build, test, and deploy applications with
-              AI-powered development tools.
+              Builders, students, and engineers using RoboCraft projects to
+              create, learn, and innovate with electronics.
             </p>
           </div>
 
           {/* Right side - testimonials */}
-
           <div className="lg:w-1/2 w-full">
             <div className="space-y-6 sm:space-y-8">
               {testimonials.map((testimonial, key) => (
@@ -57,7 +56,7 @@ export default function Testimonials() {
                     <div className="flex-shrink-0">
                       <div
                         className="text-2xl sm:text-3xl lg:text-4xl font-bold 
-                      bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text 
+                      bg-gradient-to-r from-orange-400 to-green-400 bg-clip-text 
                       text-transparent"
                       >
                         "

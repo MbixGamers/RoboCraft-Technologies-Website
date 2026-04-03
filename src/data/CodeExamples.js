@@ -1,118 +1,91 @@
 export const codeExamples = {
-  "App.jsx": `import { useState } from "react";
-import { CodeFlow } from "@codeflow/ai";
+  "blink.ino": `#include <Arduino.h>
 
-function App() {
-  const [code, setCode] = useState("");
+const int LED_PIN = 13;
 
-  const handleAICompletion = async () => {
-    const suggestion = await CodeFlow.complete(code);
-    setCode(suggestion);
-  };
+void setup() {
+  pinMode(LED_PIN, OUTPUT);
+  Serial.begin(9600);
+  Serial.println("RoboCraft: LED Blink");
+}
 
-  return (
-    <div className="app">
-      <CodeEditor 
-        onChange={setCode} 
-        onAI={handleAICompletion} 
-      />
-    </div>
-  );
+void loop() {
+  digitalWrite(LED_PIN, HIGH);
+  delay(1000); // LED ON
+  digitalWrite(LED_PIN, LOW);
+  delay(1000); // LED OFF
 }`,
-  "Hero.jsx": `import { useState, useEffect } from "react";
-import { CodeFlow } from "@codeflow/ai";
 
-export default function Hero() {
-  const [isTyping, setIsTyping] = useState(false);
-  
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsTyping(true);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
+  "servo.ino": `#include <Servo.h>
 
-  const handleAISuggestion = async () => {
-    const suggestion = await CodeFlow.suggest("hero component");
-    return suggestion;
-  };
+Servo myServo;
+const int SERVO_PIN = 9;
 
-  return (
-    <section className="hero">
-      <h1 className="text-4xl font-bold">
-        {isTyping ? "AI-Powered Development" : "Loading..."}
-      </h1>
-      <button onClick={handleAISuggestion}>
-        Get AI Suggestion
-      </button>
-    </section>
-  );
+void setup() {
+  myServo.attach(SERVO_PIN);
+  Serial.begin(9600);
+  Serial.println("Servo Control Ready");
+}
+
+void loop() {
+  for (int pos = 0; pos <= 180; pos++) {
+    myServo.write(pos);
+    delay(15);
+  }
+  for (int pos = 180; pos >= 0; pos--) {
+    myServo.write(pos);
+    delay(15);
+  }
 }`,
-  "Navbar.jsx": `import { useState } from "react";
-import { CodeFlow } from "@codeflow/ai";
 
-export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  "wifi.ino": `#include <ESP8266WiFi.h>
 
-  const handleSearch = async () => {
-    const results = await CodeFlow.search(searchQuery);
-    return results;
-  };
+const char* SSID     = "YourNetwork";
+const char* PASSWORD = "YourPassword";
 
-  return (
-    <nav className="navbar">
-      <div className="nav-brand">
-        <h2>CodeFlow AI</h2>
-      </div>
-      
-      <div className="nav-search">
-        <input 
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search code..."
-        />
-        <button onClick={handleSearch}>Search</button>
-      </div>
-      
-      <button 
-        className="menu-toggle"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        ☰
-      </button>
-    </nav>
-  );
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(SSID, PASSWORD);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\\nConnected!");
+  Serial.println(WiFi.localIP());
+}
+
+void loop() {
+  // IoT logic here
 }`,
 };
 
 export const floatingCards = {
-  "App.jsx": {
+  "blink.ino": {
+    bgColor: "bg-orange-500/20",
+    iconColor: "text-orange-400",
+    textColor: "text-orange-300",
+    contentColor: "text-gray-300",
+    icon: "⚡",
+    title: "Output Ready",
+    content: "LED blinking at 1 Hz — circuit verified",
+  },
+  "servo.ino": {
+    bgColor: "bg-green-500/20",
+    iconColor: "text-green-400",
+    textColor: "text-green-300",
+    contentColor: "text-gray-300",
+    icon: "⚙️",
+    title: "Servo Sweep",
+    content: "180° cycle running — torque: 2.5 kg/cm",
+  },
+  "wifi.ino": {
     bgColor: "bg-blue-500/20",
     iconColor: "text-blue-400",
-    textColor: "text-blue-200",
-    contentColor: "text-blue-300",
-    icon: "AI",
-    title: "Smart Completion",
-    content: "AI-powered code suggestions in real-time",
-  },
-  "Hero.jsx": {
-    bgColor: "bg-purple-500/20",
-    iconColor: "text-purple-400",
-    textColor: "text-purple-200",
-    contentColor: "text-purple-300",
-    icon: "⚡",
-    title: "Auto Animation",
-    content: "Dynamic typing effects generated automatically",
-  },
-  "Navbar.jsx": {
-    bgColor: "bg-emerald-500/20",
-    iconColor: "text-emerald-400",
-    textColor: "text-emerald-200",
-    contentColor: "text-emerald-300",
-    icon: "🔍",
-    title: "Smart Search",
-    content: "Intelligent code search across your project",
+    textColor: "text-blue-300",
+    contentColor: "text-gray-300",
+    icon: "📡",
+    title: "WiFi Connected",
+    content: "IP: 192.168.1.42 — Signal: -62 dBm",
   },
 };

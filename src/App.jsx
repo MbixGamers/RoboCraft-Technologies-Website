@@ -1,12 +1,26 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Features from "./components/Features";
 import Pricing from "./components/Pricing";
 import Testimonials from "./components/Testimonials";
 import Footer from "./components/Footer";
+import ProjectsPage from "./pages/ProjectsPage";
 import { useEffect, useState } from "react";
 
-function App() {
+function HomePage() {
+  return (
+    <>
+      <Hero />
+      <Features />
+      <Pricing />
+      <Testimonials />
+      <Footer />
+    </>
+  );
+}
+
+function AppInner() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -18,15 +32,23 @@ function App() {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
   return (
     <div className="min-h-screen bg-slate-950 text-white overflow-hidden">
       <Navbar scrolled={scrolled} />
-      <Hero />
-      <Features />
-      <Pricing />
-      <Testimonials />
-      <Footer />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/projects" element={<ProjectsPage />} />
+      </Routes>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppInner />
+    </BrowserRouter>
   );
 }
 

@@ -1,0 +1,92 @@
+export const projectCategories = [
+  {
+    id: "arduino",
+    name: "Arduino",
+    icon: "🔵",
+    color: "from-blue-500/20 to-cyan-500/20",
+    borderColor: "border-blue-500/30",
+    accentColor: "text-blue-400",
+    glowColor: "shadow-blue-500/20",
+    description: "Open-source microcontroller boards for beginners to pros",
+    subCategories: [
+      {
+        id: "arduino-uno",
+        name: "Arduino UNO",
+        description: "The classic — 14 digital I/O pins, 6 analog inputs",
+        projects: [],
+      },
+      {
+        id: "arduino-nano",
+        name: "Arduino NANO",
+        description: "Compact & breadboard-friendly, perfect for tight spaces",
+        projects: [],
+      },
+      {
+        id: "arduino-pro-mini",
+        name: "Arduino Pro Mini",
+        description: "Minimalist form factor for embedded applications",
+        projects: [],
+      },
+      {
+        id: "arduino-mega",
+        name: "Arduino Mega",
+        description: "54 digital I/O pins for large, complex projects",
+        projects: [],
+      },
+    ],
+  },
+  {
+    id: "esp",
+    name: "ESP",
+    icon: "📡",
+    color: "from-orange-500/20 to-red-500/20",
+    borderColor: "border-orange-500/30",
+    accentColor: "text-orange-400",
+    glowColor: "shadow-orange-500/20",
+    description: "WiFi & Bluetooth enabled modules for IoT projects",
+    subCategories: [
+      {
+        id: "esp8266",
+        name: "ESP 8266",
+        description: "Low-cost WiFi chip with full TCP/IP stack",
+        projects: [],
+      },
+      {
+        id: "esp32",
+        name: "ESP 32",
+        description: "Dual-core with WiFi + Bluetooth — the IoT powerhouse",
+        projects: [],
+      },
+    ],
+  },
+  {
+    id: "raspberry-pi",
+    name: "Raspberry Pi",
+    icon: "🍓",
+    color: "from-green-500/20 to-emerald-500/20",
+    borderColor: "border-green-500/30",
+    accentColor: "text-green-400",
+    glowColor: "shadow-green-500/20",
+    description: "Single-board computers running full Linux OS",
+    subCategories: [
+      {
+        id: "rpi-4-5",
+        name: "Raspberry Pi 4/5",
+        description: "Full desktop-class SBC with 4K video support",
+        projects: [],
+      },
+      {
+        id: "rpi-zero",
+        name: "Raspberry Pi Zero",
+        description: "Tiny, affordable — ideal for wearables & embedded",
+        projects: [],
+      },
+      {
+        id: "rpi-pico",
+        name: "Raspberry Pi Pico",
+        description: "RP2040 microcontroller — MicroPython ready",
+        projects: [],
+      },
+    ],
+  },
+];

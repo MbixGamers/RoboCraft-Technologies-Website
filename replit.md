@@ -1,48 +1,60 @@
-# Modern UX/UI Landing Page
+# RoboCraft Technologies
 
 ## Overview
-A modern, responsive landing page built with React, Vite, and Tailwind CSS. This project showcases a clean UI/UX design with various sections including hero, features, pricing, testimonials, and footer components.
+A personal electronics project showcase site built with React, Vite, and Tailwind CSS. Users can browse curated Arduino, ESP, and Raspberry Pi projects — each with circuit schematics, step-by-step guides, materials lists, and fully documented source code.
 
 ## Project Structure
-- **Frontend**: React 19 + Vite
+- **Frontend**: React 19 + Vite + React Router DOM
 - **Styling**: Tailwind CSS v4
 - **Build Tool**: Vite 7
 - **Icons**: Lucide React
-- **Special Features**: React Compiler enabled for optimized performance
+- **Routing**: React Router DOM v7
 
-## Key Technologies
-- React 19.1.1
-- Vite 7.1.7
-- Tailwind CSS 4.1.16
-- React Syntax Highlighter
-- Babel React Compiler Plugin
+## Pages
+- `/` — Home landing page (hero, features, platform overview, community)
+- `/projects` — Project Explorer (folder-based browser by platform)
 
-## Development Setup
-The project is configured to run on port 5000 with host 0.0.0.0 to work with Replit's proxy system.
+## Project Explorer Structure
+```
+Projects
+├── Arduino
+│   ├── Arduino UNO
+│   ├── Arduino NANO
+│   ├── Arduino Pro Mini
+│   └── Arduino Mega
+├── ESP
+│   ├── ESP 8266
+│   └── ESP 32
+└── Raspberry Pi
+    ├── Raspberry Pi 4/5
+    ├── Raspberry Pi Zero
+    └── Raspberry Pi Pico
+```
 
-### Commands
-- `npm run dev` - Start development server on port 5000
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
+## Key Files
+- `src/App.jsx` — App root with BrowserRouter and routes
+- `src/pages/ProjectsPage.jsx` — Projects explorer with collapsible folder UI
+- `src/data/projects.js` — All project category/sub-category data (add new projects here)
+- `src/data/CodeExamples.js` — Hero section code tab examples (Arduino/ESP code)
+- `src/components/` — Navbar, Hero, Features, Pricing, Testimonials, Footer
+- `public/robocraft-logo.png` — Brand logo (mix-blend-mode: screen in dark UI)
 
-## Components
-- **Navbar**: Navigation bar with scroll effect
-- **Hero**: Main hero section
-- **Features**: Feature showcase section
-- **Pricing**: Pricing plans section
-- **Testimonials**: Customer testimonials
-- **Footer**: Site footer
+## Adding New Projects
+To add a project, open `src/data/projects.js` and add an entry to the `projects` array of the relevant sub-category:
+```js
+{
+  id: "unique-project-id",
+  name: "My Project Name",
+}
+```
+Then create a detail page/component as needed.
 
-## Recent Changes
-- **2025-11-03**: Initial Replit import setup
-  - Configured Vite to bind to 0.0.0.0:5000
-  - Added allowedHosts: true for Replit proxy compatibility
-  - Set up development workflow
-  - Created project documentation
+## Commands
+- `npm run dev` — Start development server on port 5000
+- `npm run build` — Build for production
+- `npm run preview` — Preview production build
 
-## Configuration
-The Vite config has been updated to support Replit's environment:
-- Server runs on 0.0.0.0:5000
-- allowedHosts is set to true to bypass host header verification
-- Preview mode also configured for port 5000
+## Branding
+- Name: RoboCraft Technologies
+- Colors: Orange (#f97316), Green (#4ade80), Dark slate background
+- Logo: `/public/robocraft-logo.png` — rendered with `mix-blend-mode: screen` to blend into dark UI
