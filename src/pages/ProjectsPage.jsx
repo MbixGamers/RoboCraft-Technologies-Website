@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { ChevronRight, ChevronDown, Folder, FolderOpen, FileCode, ArrowLeft } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { ChevronRight, Folder, FolderOpen, FileCode, ArrowLeft } from "lucide-react";
 import { projectCategories } from "../data/projects";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 function SubCategoryItem({ sub, accentColor }) {
   const [open, setOpen] = useState(false);
@@ -23,11 +23,11 @@ function SubCategoryItem({ sub, accentColor }) {
         <span className="ml-auto text-xs text-gray-600">
           {sub.projects.length} project{sub.projects.length !== 1 ? "s" : ""}
         </span>
-        {open ? (
-          <ChevronDown className="w-3.5 h-3.5 text-gray-500" />
-        ) : (
-          <ChevronRight className="w-3.5 h-3.5 text-gray-500" />
-        )}
+        <ChevronRight
+          className={`w-3.5 h-3.5 text-gray-500 transition-transform duration-200 ${
+            open ? "rotate-90" : "rotate-0"
+          }`}
+        />
       </button>
 
       {open && (
@@ -66,15 +66,30 @@ function SubCategoryItem({ sub, accentColor }) {
   );
 }
 
-function CategoryCard({ category }) {
-  const [open, setOpen] = useState(false);
+function CategoryCard({ category, initialOpen }) {
+  const [open, setOpen] = useState(initialOpen || false);
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    if (initialOpen && cardRef.current) {
+      setTimeout(() => {
+        cardRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 200);
+    }
+  }, [initialOpen]);
 
   return (
     <div
+      ref={cardRef}
       className={`relative bg-slate-900/50 backdrop-blur-sm border ${category.borderColor} rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-300`}
+      style={{
+        boxShadow: open
+          ? `0 0 32px 0 ${category.glowRgb}, 0 0 0 1px ${category.glowRgb}`
+          : `0 0 16px 0 ${category.glowRgb}`,
+      }}
     >
       {/* Gradient top bar */}
-      <div className={`h-1 w-full bg-gradient-to-r ${category.color.replace("/20", "")}`} />
+      <div className={`h-1 w-full bg-gradient-to-r ${category.gradientBar}`} />
 
       {/* Category Header */}
       <button
@@ -94,17 +109,25 @@ function CategoryCard({ category }) {
           </span>
           <div
             className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
-              open ? "bg-white/10 rotate-90" : "bg-white/5 rotate-0"
+              open ? "bg-white/10" : "bg-white/5"
             }`}
           >
-            <ChevronRight className="w-4 h-4 text-gray-400" />
+            <ChevronRight
+              className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${
+                open ? "rotate-90" : "rotate-0"
+              }`}
+            />
           </div>
         </div>
       </button>
 
-      {/* Sub-categories */}
-      {open && (
-        <div className="px-4 pb-4 space-y-1 animate-in slide-in-from-top duration-300">
+      {/* Sub-categories — smooth height animation via max-height */}
+      <div
+        className={`transition-all duration-500 ease-in-out overflow-hidden ${
+          open ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="px-4 pb-4 space-y-1">
           <div className="h-px bg-slate-800 mb-3" />
           {category.subCategories.map((sub) => (
             <SubCategoryItem
@@ -114,13 +137,15 @@ function CategoryCard({ category }) {
             />
           ))}
         </div>
-      )}
+      </div>
     </div>
   );
 }
 
 export default function ProjectsPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [searchParams] = useSearchParams();
+  const expandId = searchParams.get("expand");
 
   const handleMouseMove = (e) => {
     setMousePosition({ x: e.clientX, y: e.clientY });
@@ -131,15 +156,16 @@ export default function ProjectsPage() {
       className="min-h-screen bg-slate-950 text-white pt-20 px-4 sm:px-6 lg:px-8 pb-16 relative overflow-hidden"
       onMouseMove={handleMouseMove}
     >
-      {/* Background glow */}
+      {/* Background mouse glow */}
       <div
         className="absolute inset-0 opacity-20 pointer-events-none"
         style={{
           background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(249, 115, 22, 0.1), transparent 40%)`,
         }}
       />
-      <div className="absolute top-20 left-10 w-72 h-72 bg-orange-500/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-green-500/5 rounded-full blur-3xl animate-pulse delay-1000 pointer-events-none" />
+      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
+      <div className="absolute top-1/2 right-10 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl animate-pulse delay-700 pointer-events-none" />
+      <div className="absolute bottom-20 left-1/3 w-96 h-96 bg-green-500/5 rounded-full blur-3xl animate-pulse delay-1000 pointer-events-none" />
 
       <div className="max-w-4xl mx-auto relative">
         {/* Back link */}
@@ -189,7 +215,11 @@ export default function ProjectsPage() {
         {/* Category Cards */}
         <div className="space-y-4 animate-in slide-in-from-bottom duration-700 delay-200">
           {projectCategories.map((category) => (
-            <CategoryCard key={category.id} category={category} />
+            <CategoryCard
+              key={category.id}
+              category={category}
+              initialOpen={expandId === category.id}
+            />
           ))}
         </div>
 

@@ -3,10 +3,10 @@ export const projectCategories = [
     id: "arduino",
     name: "Arduino",
     icon: "🔵",
-    color: "from-blue-500/20 to-cyan-500/20",
+    gradientBar: "from-blue-500 to-cyan-500",
     borderColor: "border-blue-500/30",
     accentColor: "text-blue-400",
-    glowColor: "shadow-blue-500/20",
+    glowRgb: "rgba(59, 130, 246, 0.18)",
     description: "Open-source microcontroller boards for beginners to pros",
     subCategories: [
       {
@@ -39,21 +39,21 @@ export const projectCategories = [
     id: "esp",
     name: "ESP",
     icon: "📡",
-    color: "from-orange-500/20 to-red-500/20",
+    gradientBar: "from-orange-500 to-red-500",
     borderColor: "border-orange-500/30",
     accentColor: "text-orange-400",
-    glowColor: "shadow-orange-500/20",
+    glowRgb: "rgba(249, 115, 22, 0.18)",
     description: "WiFi & Bluetooth enabled modules for IoT projects",
     subCategories: [
       {
         id: "esp8266",
-        name: "ESP 8266",
+        name: "ESP8266",
         description: "Low-cost WiFi chip with full TCP/IP stack",
         projects: [],
       },
       {
         id: "esp32",
-        name: "ESP 32",
+        name: "ESP32",
         description: "Dual-core with WiFi + Bluetooth — the IoT powerhouse",
         projects: [],
       },
@@ -63,10 +63,10 @@ export const projectCategories = [
     id: "raspberry-pi",
     name: "Raspberry Pi",
     icon: "🍓",
-    color: "from-green-500/20 to-emerald-500/20",
+    gradientBar: "from-green-500 to-emerald-500",
     borderColor: "border-green-500/30",
     accentColor: "text-green-400",
-    glowColor: "shadow-green-500/20",
+    glowRgb: "rgba(34, 197, 94, 0.18)",
     description: "Single-board computers running full Linux OS",
     subCategories: [
       {
