@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { ChevronRight, Folder, FolderOpen, FileCode, ArrowLeft } from "lucide-react";
+import { ChevronRight, Folder, FolderOpen, FileCode, ArrowLeft, ArrowRight } from "lucide-react";
 import { projectCategories } from "../data/projects";
 import { Link, useSearchParams } from "react-router-dom";
 
@@ -48,15 +48,17 @@ function SubCategoryItem({ sub, accentColor }) {
           ) : (
             <div className="space-y-1 py-1">
               {sub.projects.map((project) => (
-                <button
+                <Link
                   key={project.id}
-                  className="flex items-center gap-2 w-full text-left py-2 px-3 rounded-lg hover:bg-white/5 transition-all duration-200 group"
+                  to={`/projects/${project.id}`}
+                  className="flex items-center gap-2 w-full text-left py-2.5 px-3 rounded-lg hover:bg-orange-500/10 border border-transparent hover:border-orange-500/20 transition-all duration-200 group"
                 >
-                  <FileCode className="w-4 h-4 text-gray-500 group-hover:text-gray-300 flex-shrink-0" />
-                  <span className="text-sm text-gray-400 group-hover:text-white transition-colors">
+                  <FileCode className={`w-4 h-4 ${accentColor} flex-shrink-0`} />
+                  <span className="text-sm text-gray-300 group-hover:text-white transition-colors flex-1">
                     {project.name}
                   </span>
-                </button>
+                  <ArrowRight className="w-3.5 h-3.5 text-gray-600 group-hover:text-orange-400 group-hover:translate-x-0.5 transition-all duration-200" />
+                </Link>
               ))}
             </div>
           )}

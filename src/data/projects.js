@@ -49,7 +49,17 @@ export const projectCategories = [
         id: "esp8266",
         name: "ESP8266",
         description: "Low-cost WiFi chip with full TCP/IP stack",
-        projects: [],
+        projects: [
+          {
+            id: "rfid-attendance-google-sheets",
+            name: "RFID Attendance with Google Sheets",
+            description:
+              "Automated attendance system using an MFRC522 RFID reader and ESP8266. Each card scan logs the timestamp and UID directly to a Google Sheet via WiFi using Google Apps Script.",
+            difficulty: "Intermediate",
+            tags: ["RFID", "Google Sheets", "WiFi", "IoT", "RC522"],
+            platform: "ESP8266",
+          },
+        ],
       },
       {
         id: "esp32",
