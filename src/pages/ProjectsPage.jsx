@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ChevronRight, Folder, FolderOpen, FileCode, ArrowLeft, ArrowRight } from "lucide-react";
 import { projectCategories } from "../data/projects";
+import { getMergedCategories } from "../utils/adminProjects";
 import { Link, useSearchParams } from "react-router-dom";
 
 function SubCategoryItem({ sub, accentColor }) {
@@ -148,6 +149,7 @@ export default function ProjectsPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [searchParams] = useSearchParams();
   const expandId = searchParams.get("expand");
+  const mergedCategories = getMergedCategories(projectCategories);
 
   const handleMouseMove = (e) => {
     setMousePosition({ x: e.clientX, y: e.clientY });
@@ -216,7 +218,7 @@ export default function ProjectsPage() {
 
         {/* Category Cards */}
         <div className="space-y-4 animate-in slide-in-from-bottom duration-700 delay-200">
-          {projectCategories.map((category) => (
+          {mergedCategories.map((category) => (
             <CategoryCard
               key={category.id}
               category={category}

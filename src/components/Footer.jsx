@@ -1,4 +1,5 @@
-import { Github, Twitter, Linkedin, Mail, Youtube } from "lucide-react";
+import { Github, Twitter, Linkedin, Mail, Youtube, ShieldCheck } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const footerLinks = {
   Projects: ["Arduino", "ESP Series", "Raspberry Pi", "Coming Soon", "All Projects"],
@@ -95,24 +96,16 @@ export default function Footer() {
               © 2025 RoboCraft Technologies. All rights reserved.
             </p>
             <div className="flex items-center space-x-4 sm:space-x-6 text-xs sm:text-sm">
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors duration-200"
+              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">Privacy Policy</a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">Terms of Service</a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">Open Source</a>
+              <Link
+                to="/admin"
+                className="flex items-center gap-1 text-gray-600 hover:text-gray-400 transition-colors duration-200"
               >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors duration-200"
-              >
-                Terms of Service
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors duration-200"
-              >
-                Open Source
-              </a>
+                <ShieldCheck className="w-3 h-3" />
+                Admin Login
+              </Link>
             </div>
           </div>
         </div>

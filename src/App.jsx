@@ -7,6 +7,8 @@ import Testimonials from "./components/Testimonials";
 import Footer from "./components/Footer";
 import ProjectsPage from "./pages/ProjectsPage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
+import AdminLoginPage from "./pages/AdminLoginPage";
+import AdminDashboard from "./pages/AdminDashboard";
 import { useEffect, useState } from "react";
 
 function HomePage() {
@@ -41,6 +43,8 @@ function AppInner() {
         <Route path="/" element={<HomePage />} />
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
+        <Route path="/admin" element={<AdminLoginPage />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Routes>
     </div>
   );
