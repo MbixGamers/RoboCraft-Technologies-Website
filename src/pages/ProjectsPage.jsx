@@ -177,6 +177,33 @@ export default function ProjectsPage() {
     setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
+  useEffect(() => {
+    window.REQUIRED_CODE_ERROR_MESSAGE = "Please choose a country code";
+    window.LOCALE = "en";
+    window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE =
+      "The information provided is invalid. Please review the field format and try again.";
+    window.REQUIRED_ERROR_MESSAGE = "This field cannot be left blank. ";
+    window.GENERIC_INVALID_MESSAGE =
+      "The information provided is invalid. Please review the field format and try again.";
+    window.translation = {
+      common: {
+        selectedList: "{quantity} list selected",
+        selectedLists: "{quantity} lists selected",
+        selectedOption: "{quantity} selected",
+        selectedOptions: "{quantity} selected",
+      },
+    };
+    window.AUTOHIDE = Boolean(0);
+
+    if (!document.getElementById("brevo-main-script")) {
+      const script = document.createElement("script");
+      script.id = "brevo-main-script";
+      script.defer = true;
+      script.src = "https://sibforms.com/forms/end-form/build/main.js";
+      document.body.appendChild(script);
+    }
+  }, []);
+
   return (
     <div
       className="min-h-screen bg-slate-950 text-white pt-20 px-4 sm:px-6 lg:px-8 pb-16 relative overflow-hidden"
@@ -265,7 +292,9 @@ export default function ProjectsPage() {
             </p>
 
             <form
+              id="sib-form"
               method="POST"
+              data-type="subscription"
               action="https://ab76e2eb.sibforms.com/serve/MUIFABHYsRs9I4xAk4AkXGCucrb0jrmvZABHwnCevZHYtN9px2gvwjdQm79JdNLB2bqtepMkTnZPOH51Gy64QygvCEzI6Nd_K69af1HzANFGS18dSM2ij1c8rgtUfkBAbjAr2CvmO84l7XM9Sj26VTjcZZDgAHN5T0NFX8-5A6Umnb2QnBJHXB7VbtodhCCdj_ifq_NMP99mq6zIog=="
               target="_blank"
               rel="noreferrer"
@@ -276,8 +305,11 @@ export default function ProjectsPage() {
                   <Mail className="w-4 h-4 text-gray-500 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-orange-300 transition-colors duration-300" />
                   <input
                     type="email"
+                    id="EMAIL"
                     name="EMAIL"
                     required
+                    data-required="true"
+                    autoComplete="off"
                     placeholder="Enter your email address"
                     className="w-full h-11 pl-11 pr-4 rounded-xl border border-slate-700 bg-slate-950/80 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:border-orange-500/50 transition-all duration-300"
                   />
@@ -294,8 +326,15 @@ export default function ProjectsPage() {
                 We respect your inbox. You can unsubscribe anytime.
               </p>
 
-              {/* Brevo hidden fields */}
-              <input type="text" name="email_address_check" defaultValue="" className="hidden" tabIndex="-1" autoComplete="off" />
+              {/* Brevo-required hidden fields */}
+              <input
+                type="text"
+                name="email_address_check"
+                defaultValue=""
+                className="hidden"
+                tabIndex="-1"
+                autoComplete="off"
+              />
               <input type="hidden" name="locale" value="en" />
             </form>
 
