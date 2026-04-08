@@ -15,6 +15,9 @@ const LANGS = [
   { value: "bash",       label: "Shell / Bash" },
 ];
 
+let _uidCounter = 1;
+const uid = () => `row-${Date.now()}-${_uidCounter++}`;
+
 const emptyForm = () => ({
   name:           "",
   description:    "",
@@ -25,16 +28,16 @@ const emptyForm = () => ({
   platform:       "",
   whatYoullBuild: [""],
   howItWorks:     [
-    { n: "1", label: "", desc: "" },
-    { n: "2", label: "", desc: "" },
-    { n: "3", label: "", desc: "" },
-    { n: "4", label: "", desc: "" },
+    { _id: uid(), n: "1", label: "", desc: "" },
+    { _id: uid(), n: "2", label: "", desc: "" },
+    { _id: uid(), n: "3", label: "", desc: "" },
+    { _id: uid(), n: "4", label: "", desc: "" },
   ],
   schematicImage: "",
-  wiringConnections: [{ from: "", to: "" }],
-  steps:    [{ title: "", detail: "" }],
-  materials:[{ name: "", qty: "" }],
-  codeFiles:[{ id: "main", label: "sketch.ino", lang: "cpp", hint: "C++ / Arduino", code: "" }],
+  wiringConnections: [{ _id: uid(), from: "", to: "" }],
+  steps:    [{ _id: uid(), title: "", detail: "" }],
+  materials:[{ _id: uid(), name: "", qty: "" }],
+  codeFiles:[{ _id: uid(), id: "main", label: "sketch.ino", lang: "cpp", hint: "C++ / Arduino", code: "" }],
 });
 
 function SectionHeader({ icon: Icon, label, open, onToggle, accent = "text-orange-400" }) {
@@ -114,6 +117,8 @@ export default function AdminDashboard() {
     e.preventDefault();
     if (!form.name.trim()) { alert("Project name is required."); return; }
 
+    const stripId = ({ _id, ...rest }) => rest;
+
     const id = editingId || slugify(form.name);
     const project = {
       id,
@@ -127,12 +132,12 @@ export default function AdminDashboard() {
                        .find((c) => c.id === form.categoryId)
                        ?.subCategories.find((s) => s.id === form.subCategoryId)?.name || "",
       whatYoullBuild:    form.whatYoullBuild.filter(Boolean),
-      howItWorks:        form.howItWorks,
+      howItWorks:        form.howItWorks.map(stripId),
       schematicImage:    form.schematicImage,
-      wiringConnections: form.wiringConnections.filter((r) => r.from || r.to),
-      steps:   form.steps.filter((s) => s.title).map((s, i) => ({ ...s, step: i + 1 })),
-      materials: form.materials.filter((m) => m.name),
-      codeFiles: form.codeFiles.filter((f) => f.code),
+      wiringConnections: form.wiringConnections.filter((r) => r.from || r.to).map(stripId),
+      steps:   form.steps.filter((s) => s.title).map((s, i) => ({ ...stripId(s), step: i + 1 })),
+      materials: form.materials.filter((m) => m.name.trim()).map(stripId),
+      codeFiles: form.codeFiles.filter((f) => f.code.trim()).map(stripId),
     };
 
     saveAdminProject(project);
@@ -155,12 +160,22 @@ export default function AdminDashboard() {
       subCategoryId:  project.subCategoryId,
       platform:       project.platform,
       whatYoullBuild: project.whatYoullBuild?.length ? project.whatYoullBuild : [""],
-      howItWorks:     project.howItWorks?.length ? project.howItWorks : emptyForm().howItWorks,
+      howItWorks:     project.howItWorks?.length
+        ? project.howItWorks.map((r) => ({ _id: uid(), ...r }))
+        : emptyForm().howItWorks,
       schematicImage: project.schematicImage || "",
-      wiringConnections: project.wiringConnections?.length ? project.wiringConnections : [{ from: "", to: "" }],
-      steps:     project.steps?.length ? project.steps.map((s) => ({ title: s.title, detail: s.detail })) : [{ title: "", detail: "" }],
-      materials: project.materials?.length ? project.materials : [{ name: "", qty: "" }],
-      codeFiles: project.codeFiles?.length ? project.codeFiles : [{ id: "main", label: "sketch.ino", lang: "cpp", hint: "C++ / Arduino", code: "" }],
+      wiringConnections: project.wiringConnections?.length
+        ? project.wiringConnections.map((r) => ({ _id: uid(), ...r }))
+        : [{ _id: uid(), from: "", to: "" }],
+      steps: project.steps?.length
+        ? project.steps.map((s) => ({ _id: uid(), title: s.title, detail: s.detail }))
+        : [{ _id: uid(), title: "", detail: "" }],
+      materials: project.materials?.length
+        ? project.materials.map((m) => ({ _id: uid(), ...m }))
+        : [{ _id: uid(), name: "", qty: "" }],
+      codeFiles: project.codeFiles?.length
+        ? project.codeFiles.map((f) => ({ _id: uid(), ...f }))
+        : [{ _id: uid(), id: "main", label: "sketch.ino", lang: "cpp", hint: "C++ / Arduino", code: "" }],
     });
     setSections({ basics: true, overview: true, schematic: true, steps: true, materials: true, code: true });
     setSaved(null);
@@ -407,7 +422,7 @@ export default function AdminDashboard() {
                   <label className={labelClass()}>How It Works (4 steps)</label>
                   <div className="grid sm:grid-cols-2 gap-3">
                     {form.howItWorks.map((item, i) => (
-                      <div key={i} className="bg-slate-800/40 rounded-xl p-4 space-y-2">
+                      <div key={item._id} className="bg-slate-800/40 rounded-xl p-4 space-y-2">
                         <div className="flex items-center gap-2 mb-1">
                           <div className="w-6 h-6 rounded-full bg-orange-500/20 text-orange-400 text-xs font-bold flex items-center justify-center">
                             {i + 1}
@@ -464,7 +479,7 @@ export default function AdminDashboard() {
                   <label className={labelClass()}>Wiring Connections</label>
                   <div className="space-y-2">
                     {form.wiringConnections.map((row, i) => (
-                      <div key={i} className="flex gap-2 items-center">
+                      <div key={row._id} className="flex gap-2 items-center">
                         <input
                           type="text"
                           value={row.from}
@@ -489,7 +504,7 @@ export default function AdminDashboard() {
                     ))}
                     <button
                       type="button"
-                      onClick={() => addRow("wiringConnections", { from: "", to: "" })}
+                      onClick={() => addRow("wiringConnections", { _id: uid(), from: "", to: "" })}
                       className="flex items-center gap-1.5 text-xs text-orange-400 hover:text-orange-300 transition-colors"
                     >
                       <Plus className="w-3.5 h-3.5" /> Add connection
@@ -506,7 +521,7 @@ export default function AdminDashboard() {
             {sections.steps && (
               <div className="px-5 pb-6 space-y-3">
                 {form.steps.map((step, i) => (
-                  <div key={i} className="bg-slate-800/40 rounded-xl p-4 space-y-2">
+                  <div key={step._id} className="bg-slate-800/40 rounded-xl p-4 space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold text-orange-400">Step {i + 1}</span>
                       {form.steps.length > 1 && (
@@ -533,7 +548,7 @@ export default function AdminDashboard() {
                 ))}
                 <button
                   type="button"
-                  onClick={() => addRow("steps", { title: "", detail: "" })}
+                  onClick={() => addRow("steps", { _id: uid(), title: "", detail: "" })}
                   className="flex items-center gap-1.5 text-xs text-orange-400 hover:text-orange-300 transition-colors"
                 >
                   <Plus className="w-3.5 h-3.5" /> Add step
@@ -548,7 +563,7 @@ export default function AdminDashboard() {
             {sections.materials && (
               <div className="px-5 pb-6 space-y-2">
                 {form.materials.map((m, i) => (
-                  <div key={i} className="flex gap-2 items-center">
+                  <div key={m._id} className="flex gap-2 items-center">
                     <input
                       type="text"
                       value={m.name}
@@ -572,7 +587,7 @@ export default function AdminDashboard() {
                 ))}
                 <button
                   type="button"
-                  onClick={() => addRow("materials", { name: "", qty: "" })}
+                  onClick={() => addRow("materials", { _id: uid(), name: "", qty: "" })}
                   className="flex items-center gap-1.5 text-xs text-orange-400 hover:text-orange-300 transition-colors mt-1"
                 >
                   <Plus className="w-3.5 h-3.5" /> Add component
@@ -587,7 +602,7 @@ export default function AdminDashboard() {
             {sections.code && (
               <div className="px-5 pb-6 space-y-4">
                 {form.codeFiles.map((f, i) => (
-                  <div key={i} className="bg-slate-800/40 rounded-xl p-4 space-y-3">
+                  <div key={f._id} className="bg-slate-800/40 rounded-xl p-4 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold text-purple-400">File {i + 1}</span>
                       {form.codeFiles.length > 1 && (
@@ -641,6 +656,7 @@ export default function AdminDashboard() {
                   type="button"
                   onClick={() =>
                     addRow("codeFiles", {
+                      _id: uid(),
                       id: `file-${Date.now()}`,
                       label: "new_file.ino",
                       lang: "cpp",

@@ -9,6 +9,7 @@ import ProjectsPage from "./pages/ProjectsPage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboard from "./pages/AdminDashboard";
+import BackToTop from "./components/BackToTop";
 import { useEffect, useState } from "react";
 
 function HomePage() {
@@ -46,6 +47,7 @@ function AppInner() {
         <Route path="/admin" element={<AdminLoginPage />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Routes>
+      <BackToTop />
     </div>
   );
 }
