@@ -150,6 +150,20 @@ export default function ProjectsPage() {
   const [searchParams] = useSearchParams();
   const expandId = searchParams.get("expand");
   const mergedCategories = getMergedCategories(projectCategories);
+  const totalPlatforms = mergedCategories.length;
+  const totalBoards = mergedCategories.reduce(
+    (count, category) => count + category.subCategories.length,
+    0,
+  );
+  const totalProjects = mergedCategories.reduce(
+    (count, category) =>
+      count +
+      category.subCategories.reduce(
+        (subCount, subCategory) => subCount + subCategory.projects.length,
+        0,
+      ),
+    0,
+  );
 
   const handleMouseMove = (e) => {
     setMousePosition({ x: e.clientX, y: e.clientY });
@@ -200,9 +214,9 @@ export default function ProjectsPage() {
         {/* Stats Bar */}
         <div className="grid grid-cols-3 gap-4 mb-10 animate-in slide-in-from-bottom duration-700 delay-100">
           {[
-            { label: "Platforms", value: "3" },
-            { label: "Board Types", value: "9" },
-            { label: "Projects", value: "Coming Soon" },
+            { label: "Platforms", value: totalPlatforms },
+            { label: "Board Types", value: totalBoards },
+            { label: "Projects", value: totalProjects },
           ].map((stat) => (
             <div
               key={stat.label}

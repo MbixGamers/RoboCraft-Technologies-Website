@@ -1,4 +1,4 @@
-import { ArrowRight, ChevronDown, Play, Cpu } from "lucide-react";
+import { ArrowRight, ChevronDown, Play, Cpu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { codeExamples, floatingCards } from "../data/CodeExamples";
@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom";
 export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [activeTab, setActiveTab] = useState("blink.ino");
+  const [isDemoOpen, setIsDemoOpen] = useState(false);
+  const [videoLoadFailed, setVideoLoadFailed] = useState(false);
+  const demoVideoPath = "/demo.mp4";
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,6 +21,31 @@ export default function Hero() {
     window.addEventListener("mousemove", handleMouseMove);
 
     return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+
+    if (isDemoOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = previousOverflow;
+    }
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isDemoOpen]);
+
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.key === "Escape") {
+        setIsDemoOpen(false);
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   const currentFloatingCard = floatingCards[activeTab];
@@ -70,7 +98,13 @@ export default function Hero() {
                 <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" />
               </button>
 
-              <button className="group w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg font-semibold text-sm sm:text-base transition-all duration-300 hover:bg-white/10 flex items-center justify-center space-x-2">
+              <button
+                onClick={() => {
+                  setVideoLoadFailed(false);
+                  setIsDemoOpen(true);
+                }}
+                className="group w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg font-semibold text-sm sm:text-base transition-all duration-300 hover:bg-white/10 flex items-center justify-center space-x-2"
+              >
                 <div className="p-2 bg-white/10 rounded-full group-hover:bg-white/20 duration-300 transition-colors">
                   <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-white" />
                 </div>
@@ -164,6 +198,50 @@ export default function Hero() {
           </div>
         </div>
       </div>
+
+      {isDemoOpen && (
+        <div
+          className="fixed inset-0 z-[100] bg-slate-950/90 backdrop-blur-sm flex items-center justify-center px-4"
+          onClick={() => setIsDemoOpen(false)}
+        >
+          <div
+            className="w-full max-w-4xl bg-slate-900 border border-slate-700 rounded-2xl overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-700">
+              <h3 className="text-sm sm:text-base font-semibold text-white">
+                RoboCraft Demo Video
+              </h3>
+              <button
+                onClick={() => setIsDemoOpen(false)}
+                className="p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+                aria-label="Close video popup"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="bg-black">
+              <video
+                className="w-full h-auto max-h-[75vh]"
+                controls
+                autoPlay
+                playsInline
+                onError={() => setVideoLoadFailed(true)}
+              >
+                <source src={demoVideoPath} type="video/mp4" />
+              </video>
+            </div>
+
+            {videoLoadFailed && (
+              <p className="px-4 py-3 text-xs sm:text-sm text-red-300 border-t border-red-500/20 bg-red-500/10">
+                Could not load demo video. Place your MP4 file at
+                <span className="font-semibold"> public/demo.mp4</span>.
+              </p>
+            )}
+          </div>
+        </div>
+      )}
     </section>
   );
 }
