@@ -177,6 +177,33 @@ export default function ProjectsPage() {
     setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
+  useEffect(() => {
+    window.REQUIRED_CODE_ERROR_MESSAGE = "Please choose a country code";
+    window.LOCALE = "en";
+    window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE =
+      "The information provided is invalid. Please review the field format and try again.";
+    window.REQUIRED_ERROR_MESSAGE = "This field cannot be left blank. ";
+    window.GENERIC_INVALID_MESSAGE =
+      "The information provided is invalid. Please review the field format and try again.";
+    window.translation = {
+      common: {
+        selectedList: "{quantity} list selected",
+        selectedLists: "{quantity} lists selected",
+        selectedOption: "{quantity} selected",
+        selectedOptions: "{quantity} selected",
+      },
+    };
+    window.AUTOHIDE = Boolean(0);
+
+    if (!document.getElementById("brevo-main-script")) {
+      const script = document.createElement("script");
+      script.id = "brevo-main-script";
+      script.defer = true;
+      script.src = "https://sibforms.com/forms/end-form/build/main.js";
+      document.body.appendChild(script);
+    }
+  }, []);
+
   return (
     <div
       className="min-h-screen bg-slate-950 text-white pt-20 px-4 sm:px-6 lg:px-8 pb-16 relative overflow-hidden"
