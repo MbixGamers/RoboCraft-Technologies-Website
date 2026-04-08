@@ -36,7 +36,7 @@ const emptyForm = () => ({
   schematicImage: "",
   wiringConnections: [{ _id: uid(), from: "", to: "" }],
   steps:    [{ _id: uid(), title: "", detail: "" }],
-  materials:[{ _id: uid(), name: "", qty: "" }],
+  materials:[{ _id: uid(), name: "", quantity: 1 }],
   codeFiles:[{ _id: uid(), id: "main", label: "sketch.ino", lang: "cpp", hint: "C++ / Arduino", code: "" }],
 });
 
@@ -559,39 +559,72 @@ export default function AdminDashboard() {
 
           {/* ── MATERIALS ── */}
           <div className="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-hidden">
-            <SectionHeader icon={Package} label="5. Materials Required" open={sections.materials} onToggle={() => toggleSection("materials")} accent="text-blue-400" />
+            <SectionHeader
+              icon={Package}
+              label="5. Materials Required"
+              open={sections.materials}
+              onToggle={() => toggleSection("materials")}
+              accent="text-blue-400"
+            />
+
             {sections.materials && (
-              <div className="px-5 pb-6 space-y-2">
+              <div className="px-5 pb-6 space-y-3">
+
                 {form.materials.map((m, i) => (
-                  <div key={m._id} className="flex gap-2 items-center">
+                    <div key={m._id} className="flex gap-3 items-center w-full">
+
+                    {/* Component Name */}
                     <input
                       type="text"
                       value={m.name}
-                      onChange={(e) => updateRow("materials", i, "name", e.target.value)}
+                      onChange={(e) =>
+                        updateRow("materials", i, "name", e.target.value)
+                      }
                       placeholder="Component name (e.g. NodeMCU ESP8266)"
-                      className={fieldClass("flex-1")}
+                      className={fieldClass("flex-[4] min-w-[400px]")}
                     />
+
+                    {/* Quantity (FIXED) */}
                     <input
-                      type="text"
-                      value={m.qty}
-                      onChange={(e) => updateRow("materials", i, "qty", e.target.value)}
-                      placeholder="Qty (e.g. ×1)"
+                      type="number"
+                      value={m.quantity}
+                      onChange={(e) =>
+                        updateRow("materials", i, "quantity", e.target.value)
+                      }
+                      placeholder="Qty"
+                      min="1"
                       className={fieldClass("w-24")}
                     />
+
+                    {/* Remove Button */}
                     {form.materials.length > 1 && (
-                      <button type="button" onClick={() => removeRow("materials", i)} className="text-gray-600 hover:text-red-400 transition-colors flex-shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => removeRow("materials", i)}
+                        className="text-gray-600 hover:text-red-400 transition-colors flex-shrink-0"
+                      >
                         <Trash2 className="w-4 h-4" />
                       </button>
                     )}
                   </div>
                 ))}
+
+                {/* Add Material Button */}
                 <button
                   type="button"
-                  onClick={() => addRow("materials", { _id: uid(), name: "", qty: "" })}
-                  className="flex items-center gap-1.5 text-xs text-orange-400 hover:text-orange-300 transition-colors mt-1"
+                  onClick={() =>
+                    addRow("materials", {
+                      _id: uid(),
+                      name: "",
+                      quantity: 1,
+                    })
+                  }
+                  className="flex items-center gap-1.5 text-xs text-orange-400 hover:text-orange-300 transition-colors mt-2"
                 >
-                  <Plus className="w-3.5 h-3.5" /> Add component
+                  <Plus className="w-3.5 h-3.5" />
+                  Add component
                 </button>
+
               </div>
             )}
           </div>

@@ -187,73 +187,104 @@ function doPost(e) {
   }
 }`;
 
-const registerCardCode = `//Store name into RFID Tag
+    const registerCardCode = `//Store name into RFID Tag
 
-#include <SPI.h>
-#include <MFRC522.h>
-//-----------------------------------------
-constexpr uint8_t RST_PIN = D3;
-constexpr uint8_t SS_PIN  = D4;
-//-----------------------------------------
-MFRC522 mfrc522(SS_PIN, RST_PIN);
-MFRC522::MIFARE_Key key;
-//-----------------------------------------
-int blockNum = 2;
-byte blockData[16] = {"Alex"};  // Change name to store in tag
-byte bufferLen = 18;
-byte readBlockData[18];
-MFRC522::StatusCode status;
+    #include <SPI.h>
+    #include <MFRC522.h>
+    //-----------------------------------------
+    constexpr uint8_t RST_PIN = D3;
+    constexpr uint8_t SS_PIN  = D4;
+    //-----------------------------------------
+    MFRC522 mfrc522(SS_PIN, RST_PIN);
+    MFRC522::MIFARE_Key key;
+    //-----------------------------------------
+    int blockNum = 2;
+    byte blockData[16] = {"Alex"};  // Change name to store in tag
+    byte bufferLen = 18;
+    byte readBlockData[18];
+    MFRC522::StatusCode status;
 
-void setup() {
-  Serial.begin(9600);
-  SPI.begin();
-  mfrc522.PCD_Init();
-  Serial.println("Scan a RFID Tag to write data...");
-}
+    void setup() {
+      Serial.begin(9600);
+      SPI.begin();
+      mfrc522.PCD_Init();
+      Serial.println("Scan a RFID Tag to write data...");
+    }
 
-void loop() {
-  for (byte i = 0; i < 6; i++) { key.keyByte[i] = 0xFF; }
-  if (!mfrc522.PICC_IsNewCardPresent()) { return; }
-  if (!mfrc522.PICC_ReadCardSerial())   { return; }
+    void loop() {
+      for (byte i = 0; i < 6; i++) { key.keyByte[i] = 0xFF; }
 
-  Serial.println("\\n**Card Detected**");
-  Serial.print(F("Card UID:"));
-  for (byte i = 0; i < mfrc522.uid.size; i++) {
-    Serial.print(mfrc522  const { project, category, subCategory } = result;
-  const staticContent = projectContent[projectId] || {};
+      if (!mfrc522.PICC_IsNewCardPresent()) { return; }
+      if (!mfrc522.PICC_ReadCardSerial())   { return; }
 
-  const content = {
-    materials: project?.materials || staticContent?.materials || [],
-    steps: project?.steps || staticContent?.steps || [],
-    code: project?.codeFiles?.[0]?.code || staticContent?.code || "",
-  schematicNotes: Array.isArray(project?.wiringConnections)
-  ? project.wiringConnections.map(c => `${c.from} -> ${c.to}`)
-  : staticContent?.schematicNotes || []
-  };.print("\\n");
+      Serial.println("\\n**Card Detected**");
+      Serial.print(F("Card UID:"));
 
-  WriteDataToBlock(blockNum, blockData);
+      for (byte i = 0; i < mfrc522.uid.size; i++) {
+        Serial.print(mfrc522.uid.uidByte[i], HEX);
+        Serial.print(" ");
+      }
+      Serial.println();
 
-  ReadDataFromBlock(blockNum, readBlockData);
-  Serial.print("\\nData in Block:"); Serial.print(blockNum); Serial.print(" --> ");
-  for (int j = 0; j < 16; j++) { Serial.write(readBlockData[j]); }
-  Serial.print("\\n");
-}
+      WriteDataToBlock(blockNum, blockData);
+      ReadDataFromBlock(blockNum, readBlockData);
 
-void WriteDataToBlock(int blockNum, byte blockData[]) {
-  status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, blockNum, &key, &(mfrc522.uid));
-  if (status != MFRC522::STATUS_OK) { Serial.println("Auth failed for Write."); return; }
-  status = mfrc522.MIFARE_Write(blockNum, blockData, 16);
-  if (status != MFRC522::STATUS_OK) { Serial.println("Write failed."); return; }
-  Serial.println("Data written successfully.");
-}
+      Serial.print("\\nData in Block:");
+      Serial.print(blockNum);
+      Serial.print(" --> ");
 
-void ReadDataFromBlock(int blockNum, byte readBlockData[]) {
-  status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, blockNum, &key, &(mfrc522.uid));
-  if (status != MFRC522::STATUS_OK) { Serial.println("Auth failed for Read."); return; }
-  status = mfrc522.MIFARE_Read(blockNum, readBlockData, &bufferLen);
-  if (status != MFRC522::STATUS_OK) { Serial.println("Read failed."); return; }
-  Serial.println("Block read successfully.");
-}`;
+      for (int j = 0; j < 16; j++) {
+        Serial.write(readBlockData[j]);
+      }
+
+      Serial.print("\\n");
+    }
+
+    void WriteDataToBlock(int blockNum, byte blockData[]) {
+      status = mfrc522.PCD_Authenticate(
+        MFRC522::PICC_CMD_MF_AUTH_KEY_A,
+        blockNum,
+        &key,
+        &(mfrc522.uid)
+      );
+
+      if (status != MFRC522::STATUS_OK) {
+        Serial.println("Auth failed for Write.");
+        return;
+      }
+
+      status = mfrc522.MIFARE_Write(blockNum, blockData, 16);
+
+      if (status != MFRC522::STATUS_OK) {
+        Serial.println("Write failed.");
+        return;
+      }
+
+      Serial.println("Data written successfully.");
+    }
+
+    void ReadDataFromBlock(int blockNum, byte readBlockData[]) {
+      status = mfrc522.PCD_Authenticate(
+        MFRC522::PICC_CMD_MF_AUTH_KEY_A,
+        blockNum,
+        &key,
+        &(mfrc522.uid)
+      );
+
+      if (status != MFRC522::STATUS_OK) {
+        Serial.println("Auth failed for Read.");
+        return;
+      }
+
+      status = mfrc522.MIFARE_Read(blockNum, readBlockData, &bufferLen);
+
+      if (status != MFRC522::STATUS_OK) {
+        Serial.println("Read failed.");
+        return;
+      }
+
+      Serial.println("Block read successfully.");
+    }`;
 
 const staticProjectContent = {
   "rfid-attendance-google-sheets": {
@@ -296,14 +327,14 @@ const staticProjectContent = {
       { step: 6, title: "Upload & Test", detail: "Upload the main sketch. LCD shows 'Initializing...' then 'Scan your Card'. Tap a registered RFID card — the LCD greets the user by name, the buzzer and LED double-beep, and 'Data Recorded' appears. Check your Google Sheet for the new row." },
     ],
     materials: [
-      { name: "NodeMCU ESP8266",       qty: "×1" },
-      { name: "RC522 RFID Reader",     qty: "×1" },
-      { name: "16×2 I²C LCD Display",  qty: "×1" },
-      { name: "RFID Tags",             qty: "×2+" },
-      { name: "Buzzer",                qty: "×1" },
-      { name: "LED",                   qty: "×1" },
-      { name: "Breadboard",            qty: "×1" },
-      { name: "Jumper Wires",          qty: "×15+" },
+      { name: "NodeMCU ESP8266",       qty: "1" },
+      { name: "RC522 RFID Reader",     qty: "1" },
+      { name: "16×2 I²C LCD Display",  qty: "1" },
+      { name: "RFID Tags",             qty: "2" },
+      { name: "Buzzer",                qty: "1" },
+      { name: "LED",                   qty: "1" },
+      { name: "Breadboard",            qty: "1" },
+      { name: "Jumper Wires",          qty: "15" },
     ],
     codeFiles: [
       { id: "main",      label: "rfid_attendance.ino", lang: "cpp",        hint: "C++ / Arduino",      code: mainCode        },
@@ -556,24 +587,43 @@ export default function ProjectDetailPage() {
           {/* MATERIALS */}
           {activeTab === "materials" && (
             <div className="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-hidden">
+
               <div className="px-6 py-4 border-b border-slate-800">
                 <h3 className="font-bold text-white flex items-center gap-2">
                   <Package className="w-4 h-4 text-orange-400" />
                   Components List — {(content.materials || []).length} items
                 </h3>
               </div>
+
               {(content.materials || []).length === 0 ? (
-                <div className="text-center py-10 text-gray-500 text-sm">No materials listed.</div>
+                <div className="text-center py-10 text-gray-500 text-sm">
+                  No materials listed.
+                </div>
               ) : (
                 <div className="divide-y divide-slate-800/50">
-                  {(content.materials || []).map((item, i) => (
-                    <div key={i} className="flex items-center gap-4 px-6 py-4 hover:bg-white/5 transition-colors">
-                      <div className="w-10 h-10 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center flex-shrink-0">
-                        <span className="text-xs font-bold text-orange-400 text-center leading-tight">{item.qty}</span>
+
+                  {(content.materials || []).map((item, i) => {
+                    const quantity = item.quantity || item.qty || 1;
+                    const name = item.name || item;
+
+                    return (
+                      <div
+                        key={i}
+                        className="flex items-center gap-4 px-6 py-4 hover:bg-white/5 transition-colors"
+                      >
+                        <div className="w-10 h-10 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center flex-shrink-0">
+                          <span className="text-xs font-bold text-orange-400 text-center leading-tight">
+                            x{quantity}
+                          </span>
+                        </div>
+
+                        <p className="text-sm font-medium text-white">
+                          {name}
+                        </p>
                       </div>
-                      <p className="text-sm font-medium text-white">{item.name}</p>
-                    </div>
-                  ))}
+                    );
+                  })}
+
                 </div>
               )}
             </div>
