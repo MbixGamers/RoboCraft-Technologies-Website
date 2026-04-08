@@ -219,10 +219,17 @@ void loop() {
   Serial.println("\\n**Card Detected**");
   Serial.print(F("Card UID:"));
   for (byte i = 0; i < mfrc522.uid.size; i++) {
-    Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
-    Serial.print(mfrc522.uid.uidByte[i], HEX);
-  }
-  Serial.print("\\n");
+    Serial.print(mfrc522  const { project, category, subCategory } = result;
+  const staticContent = projectContent[projectId] || {};
+
+  const content = {
+    materials: project?.materials || staticContent?.materials || [],
+    steps: project?.steps || staticContent?.steps || [],
+    code: project?.codeFiles?.[0]?.code || staticContent?.code || "",
+  schematicNotes: Array.isArray(project?.wiringConnections)
+  ? project.wiringConnections.map(c => `${c.from} -> ${c.to}`)
+  : staticContent?.schematicNotes || []
+  };.print("\\n");
 
   WriteDataToBlock(blockNum, blockData);
 

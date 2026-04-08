@@ -51,15 +51,24 @@ export function getMergedCategories(projectCategories) {
     if (!cat) continue;
     const sub = cat.subCategories.find((s) => s.id === ap.subCategoryId);
     if (!sub) continue;
-    if (!sub.projects.find((p) => p.id === ap.id)) {
-      sub.projects.push({
-        id: ap.id,
-        name: ap.name,
-        description: ap.description,
-        difficulty: ap.difficulty,
-        tags: ap.tags,
-        platform: ap.platform,
-      });
+
+    const existingIdx = sub.projects.findIndex((p) => p.id === ap.id);
+
+    // THE FIX: Spread 'ap' to ensure materials, steps, and code are included
+    const projectData = {
+      ...ap, // This brings in the 'materials' array you saved
+      id: ap.id,
+      name: ap.name,
+      description: ap.description,
+      difficulty: ap.difficulty,
+      tags: ap.tags,
+      platform: ap.platform,
+    };
+
+    if (existingIdx >= 0) {
+      sub.projects[existingIdx] = projectData;
+    } else {
+      sub.projects.push(projectData);
     }
   }
   return merged;
