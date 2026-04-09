@@ -525,7 +525,7 @@ export default function ProjectsPage() {
                           form="sib-form"
                           type="submit"
                         >
-                          {isSubscribing ? "Subscribing..." : "Subscribe"}
+                          Subscribe
                         </button>
                       </div>
                     </div>
