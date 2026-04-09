@@ -217,6 +217,23 @@ export default function ProjectsPage() {
       const styleTag = document.createElement("style");
       styleTag.id = "brevo-theme-overrides";
       styleTag.textContent = `
+        #sib-form-container .sib-form-message-panel {
+          display: none;
+          border-width: 1px;
+          border-style: solid;
+          border-radius: 0.75rem;
+          padding: 0.85rem 1rem;
+          backdrop-filter: blur(10px);
+          box-shadow: 0 10px 30px rgba(2, 6, 23, 0.35);
+        }
+
+        #sib-form-container .sib-form-message-panel__text {
+          margin: 0;
+          font-size: 0.9rem;
+          line-height: 1.45;
+          letter-spacing: 0.01em;
+        }
+
         @font-face {
           font-display: block;
           font-family: Roboto;
@@ -242,25 +259,46 @@ export default function ProjectsPage() {
 
         #sib-container input:-ms-input-placeholder {
           text-align: left;
-          font-family: Helvetica, sans-serif;
-          color: #c0ccda;
+          font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          color: #94a3b8;
         }
 
         #sib-container input::placeholder {
           text-align: left;
-          font-family: Helvetica, sans-serif;
-          color: #c0ccda;
+          font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          color: #94a3b8;
         }
 
         #sib-container textarea::placeholder {
           text-align: left;
-          font-family: Helvetica, sans-serif;
-          color: #c0ccda;
+          font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          color: #94a3b8;
         }
 
         #sib-container a {
           text-decoration: underline;
-          color: #2BB2FC;
+          color: #fb923c;
+          text-underline-offset: 3px;
+        }
+
+        #sib-container .entry__error {
+          margin-top: 0.6rem;
+        }
+
+        #sib-container .entry__specification {
+          display: block;
+          margin-top: 0.5rem;
+        }
+
+        #sib-container .sib-form-block__button {
+          width: 100%;
+          transition: all 0.2s ease-in-out;
+          box-shadow: 0 10px 30px rgba(249, 115, 22, 0.28);
+        }
+
+        #sib-container .sib-form-block__button:hover {
+          transform: translateY(-1px);
+          filter: brightness(1.05);
         }
       `;
       document.head.appendChild(styleTag);
@@ -377,13 +415,14 @@ export default function ProjectsPage() {
                   id="error-message"
                   className="sib-form-message-panel"
                   style={{
-                    fontSize: "16px",
+                    fontSize: "14px",
                     textAlign: "left",
-                    fontFamily: "Helvetica, sans-serif",
-                    color: "#661d1d",
-                    backgroundColor: "#ffeded",
-                    borderRadius: "3px",
-                    borderColor: "#ff4949",
+                    fontFamily:
+                      'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+                    color: "#fecaca",
+                    backgroundColor: "rgba(127, 29, 29, 0.35)",
+                    borderRadius: "12px",
+                    borderColor: "rgba(248, 113, 113, 0.45)",
                     maxWidth: "540px",
                   }}
                 >
@@ -392,13 +431,14 @@ export default function ProjectsPage() {
                   </div>
                 </div>
                 <div id="success-message" className="sib-form-message-panel" style={{
-                  fontSize: "16px",
+                  fontSize: "14px",
                   textAlign: "left",
-                  fontFamily: "Helvetica, sans-serif",
-                  color: "#085229",
-                  backgroundColor: "#e7faf0",
-                  borderRadius: "3px",
-                  borderColor: "#13ce66",
+                  fontFamily:
+                    'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+                  color: "#bbf7d0",
+                  backgroundColor: "rgba(21, 128, 61, 0.28)",
+                  borderRadius: "12px",
+                  borderColor: "rgba(74, 222, 128, 0.4)",
                   maxWidth: "540px",
                 }}>
                   <div className="sib-form-message-panel__text sib-form-message-panel__text--center">
@@ -411,12 +451,14 @@ export default function ProjectsPage() {
                   className="sib-container--large sib-container--vertical"
                   style={{
                     textAlign: "center",
-                    backgroundColor: "rgba(168,166,166,1)",
+                    background:
+                      "linear-gradient(145deg, rgba(15,23,42,0.95), rgba(30,41,59,0.88))",
                     maxWidth: "540px",
-                    borderRadius: "3px",
+                    borderRadius: "16px",
                     borderWidth: "1px",
-                    borderColor: "#C0CCD9",
+                    borderColor: "rgba(148, 163, 184, 0.3)",
                     borderStyle: "solid",
+                    boxShadow: "0 24px 65px rgba(2, 6, 23, 0.45)",
                     direction: "ltr",
                   }}
                 >
@@ -428,13 +470,13 @@ export default function ProjectsPage() {
                     onSubmit={() => setIsSubscribing(true)}
                   >
                     <div style={{ padding: "16px 0" }}>
-                      <div className="sib-form-block" style={{ fontSize: "32px", textAlign: "left", fontWeight: 700, fontFamily: '"Comic Sans MS", sans-serif', color: "#fa7b03", backgroundColor: "transparent" }}>
+                      <div className="sib-form-block" style={{ fontSize: "30px", textAlign: "left", fontWeight: 700, fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', lineHeight: "1.1", letterSpacing: "-0.02em", color: "#fdba74", backgroundColor: "transparent" }}>
                         <p>Newsletter</p>
                       </div>
                     </div>
 
                     <div style={{ padding: "16px 0" }}>
-                      <div className="sib-form-block" style={{ fontSize: "16px", textAlign: "left", fontFamily: "Helvetica, sans-serif", color: "#050505", backgroundColor: "transparent" }}>
+                      <div className="sib-form-block" style={{ fontSize: "15px", textAlign: "left", lineHeight: "1.6", fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', color: "#cbd5e1", backgroundColor: "transparent" }}>
                         <div className="sib-text-form-block">
                           <p>Subscribe to our newsletter and stay updated.</p>
                         </div>
@@ -445,7 +487,7 @@ export default function ProjectsPage() {
                       <div className="sib-input sib-form-block">
                         <div className="form__entry entry_block">
                           <div className="form__label-row">
-                            <label className="entry__label" style={{ fontWeight: 700, textAlign: "left", fontSize: "16px", fontFamily: "Helvetica, sans-serif", color: "#3c4858" }} htmlFor="EMAIL" data-required="*">
+                            <label className="entry__label" style={{ fontWeight: 700, textAlign: "left", fontSize: "14px", fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', letterSpacing: "0.01em", color: "#f8fafc" }} htmlFor="EMAIL" data-required="*">
                               Enter your email address to subscribe
                             </label>
 
@@ -457,14 +499,24 @@ export default function ProjectsPage() {
                                 name="EMAIL"
                                 autoComplete="off"
                                 placeholder="EMAIL"
+                                style={{
+                                  borderRadius: "10px",
+                                  border: "1px solid rgba(148, 163, 184, 0.4)",
+                                  backgroundColor: "rgba(15, 23, 42, 0.76)",
+                                  color: "#f8fafc",
+                                  fontSize: "14px",
+                                  fontFamily:
+                                    'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+                                  boxShadow: "inset 0 1px 2px rgba(15, 23, 42, 0.65)",
+                                }}
                                 data-required="true"
                                 required
                               />
                             </div>
                           </div>
 
-                          <label className="entry__error entry__error--primary" style={{ fontSize: "16px", textAlign: "left", fontFamily: "Helvetica, sans-serif", color: "#661d1d", backgroundColor: "#ffeded", borderRadius: "3px", borderColor: "#ff4949" }} />
-                          <label className="entry__specification" style={{ fontSize: "12px", textAlign: "left", fontFamily: "Helvetica, sans-serif", color: "#8390A4" }}>
+                          <label className="entry__error entry__error--primary" style={{ fontSize: "13px", textAlign: "left", fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', color: "#fca5a5", backgroundColor: "rgba(127, 29, 29, 0.35)", borderRadius: "10px", borderColor: "rgba(248, 113, 113, 0.5)" }} />
+                          <label className="entry__specification" style={{ fontSize: "12px", textAlign: "left", fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', color: "#94a3b8" }}>
                             Provide your email address to subscribe. For e.g abc@xyz.com
                           </label>
                         </div>
@@ -486,7 +538,7 @@ export default function ProjectsPage() {
                       <div className="sib-form-block" style={{ textAlign: "left" }}>
                         <button
                           className="sib-form-block__button sib-form-block__button-with-loader"
-                          style={{ fontSize: "16px", textAlign: "left", fontWeight: 700, fontFamily: '"Trebuchet MS", sans-serif', color: "#171515", backgroundColor: "#06e70e", borderRadius: "3px", borderWidth: "0px" }}
+                          style={{ fontSize: "14px", letterSpacing: "0.02em", textAlign: "center", fontWeight: 700, fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', color: "#fff7ed", background: "linear-gradient(90deg, #f97316, #fb923c)", borderRadius: "10px", borderWidth: "0px", padding: "0.85rem 1rem" }}
                           form="sib-form"
                           type="submit"
                         >
@@ -497,7 +549,7 @@ export default function ProjectsPage() {
 
                     <div style={{ padding: "16px 0" }}>
                       <div className="sib-form__declaration" style={{ direction: "ltr" }}>
-                        <div style={{ fontSize: "14px", textAlign: "left", fontFamily: "Helvetica, sans-serif", color: "#ffffff", backgroundColor: "transparent" }}>
+                        <div style={{ fontSize: "13px", lineHeight: "1.6", textAlign: "left", fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', color: "#94a3b8", backgroundColor: "transparent" }}>
                           <p>
                             We use Brevo as our marketing platform. By submitting this form you agree that the personal data you provided will be transferred to Brevo for processing in accordance with{" "}
                             <a href="https://www.brevo.com/en/legal/privacypolicy/" target="_blank" rel="noreferrer">
