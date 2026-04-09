@@ -229,6 +229,14 @@ export default function ProjectsPage() {
           opacity: 1;
         }
 
+        #sib-form-container .entry__specification {
+          margin-top: 0.625rem;
+        }
+
+        #sib-form-container .sib-form-block {
+          margin-bottom: 0;
+        }
+
         #sib-form-container .entry__error {
           color: rgb(252 165 165);
           margin-top: 0.5rem;
@@ -343,20 +351,20 @@ export default function ProjectsPage() {
 
         {/* Bottom CTA */}
         <div className="mt-12 text-center">
-          <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 mb-4 animate-in slide-in-from-bottom duration-700">
+          <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 sm:p-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 mb-3 animate-in slide-in-from-bottom duration-700">
               <Mail className="w-3.5 h-3.5 text-orange-300" />
               <span className="text-xs text-orange-200">Newsletter</span>
             </div>
 
-            <h3 className="text-xl font-bold text-white mb-2 animate-in slide-in-from-bottom duration-700 delay-100">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 animate-in slide-in-from-bottom duration-700 delay-100">
               Get project updates in your inbox
             </h3>
-            <p className="text-gray-400 text-sm mb-6 animate-in slide-in-from-bottom duration-700 delay-150">
+            <p className="text-gray-400 text-sm sm:text-base mb-6 animate-in slide-in-from-bottom duration-700 delay-150">
               Subscribe for new project drops, tutorials, and release updates.
             </p>
 
-            <div className="sib-form max-w-xl mx-auto animate-in slide-in-from-bottom duration-700 delay-200 text-left">
+            <div className="sib-form max-w-2xl mx-auto animate-in slide-in-from-bottom duration-700 delay-200 text-left">
               <div id="sib-form-container" className="sib-form-container">
                 <div
                   id="error-message"
@@ -377,7 +385,7 @@ export default function ProjectsPage() {
 
                 <div
                   id="sib-container"
-                  className="sib-container--large sib-container--vertical rounded-2xl border border-slate-700/80 bg-slate-950/70 p-5 sm:p-6 shadow-[0_0_40px_rgba(15,23,42,0.35)] backdrop-blur"
+                  className="sib-container--large sib-container--vertical rounded-2xl border border-slate-700/80 bg-slate-950/70 p-4 sm:p-6 shadow-[0_0_40px_rgba(15,23,42,0.35)] backdrop-blur"
                   style={{ direction: "ltr" }}
                 >
                   <form
@@ -386,17 +394,16 @@ export default function ProjectsPage() {
                     data-type="subscription"
                     action="https://ab76e2eb.sibforms.com/serve/MUIFABHYsRs9I4xAk4AkXGCucrb0jrmvZABHwnCevZHYtN9px2gvwjdQm79JdNLB2bqtepMkTnZPOH51Gy64QygvCEzI6Nd_K69af1HzANFGS18dSM2ij1c8rgtUfkBAbjAr2CvmO84l7XM9Sj26VTjcZZDgAHN5T0NFX8-5A6Umnb2QnBJHXB7VbtodhCCdj_ifq_NMP99mq6zIog=="
                   >
-                    <div className="pb-4">
-                      <p className="text-2xl sm:text-3xl font-bold text-orange-400">Newsletter</p>
-                    </div>
-
-                    <div className="pb-5">
-                      <p className="text-sm text-slate-300">
+                    <div className="space-y-2 pb-4 sm:pb-5">
+                      <p className="text-xl sm:text-2xl font-bold text-orange-400 leading-tight">
+                        Newsletter
+                      </p>
+                      <p className="text-sm text-slate-300 leading-relaxed">
                         Subscribe to our newsletter and stay updated.
                       </p>
                     </div>
 
-                    <div className="pb-3">
+                    <div className="pb-2 sm:pb-3">
                       <div className="sib-input sib-form-block">
                         <div className="form__entry entry_block">
                           <div className="form__label-row">
@@ -431,7 +438,7 @@ export default function ProjectsPage() {
                       </div>
                     </div>
 
-                    <div className="py-2 flex justify-center">
+                    <div className="pt-1 pb-2 flex justify-center">
                       <div
                         className="g-recaptcha"
                         id="sib-captcha"
@@ -442,10 +449,10 @@ export default function ProjectsPage() {
                       />
                     </div>
 
-                    <div className="pt-2 pb-4">
+                    <div className="pt-2 pb-3 sm:pb-4">
                       <div className="sib-form-block text-left">
                         <button
-                          className="sib-form-block__button sib-form-block__button-with-loader h-11 px-6 rounded-xl bg-gradient-to-b from-orange-500 to-orange-400 text-slate-950 font-bold text-sm hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all duration-300"
+                          className="sib-form-block__button sib-form-block__button-with-loader h-11 w-full sm:w-auto px-6 rounded-xl bg-gradient-to-b from-orange-500 to-orange-400 text-slate-950 font-bold text-sm hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all duration-300"
                           form="sib-form"
                           type="submit"
                         >
@@ -460,7 +467,7 @@ export default function ProjectsPage() {
                       </div>
                     </div>
 
-                    <div className="border-t border-slate-800 pt-4">
+                    <div className="border-t border-slate-800 pt-3 sm:pt-4">
                       <p className="text-xs text-slate-300 leading-relaxed">
                         We use Brevo as our marketing platform. By submitting this form you agree that the personal data you provided will be transferred to Brevo for processing in accordance with {" "}
                         <a
@@ -488,8 +495,8 @@ export default function ProjectsPage() {
               </div>
             </div>
 
-            <div className="mt-5">
-              <button className="px-6 py-2.5 bg-white/5 border border-white/10 rounded-lg font-semibold text-sm transition-all duration-300 hover:bg-white/10">
+            <div className="mt-5 sm:mt-6">
+              <button className="w-full sm:w-auto px-6 py-2.5 bg-white/5 border border-white/10 rounded-lg font-semibold text-sm transition-all duration-300 hover:bg-white/10">
                 Submit Your Project
               </button>
             </div>
