@@ -194,9 +194,14 @@ export default function ProjectsPage() {
       },
     };
     window.AUTOHIDE = Boolean(0);
-    window.handleCaptchaResponse = function handleCaptchaResponse() {
+    window.invisibleCaptchaCallback = function invisibleCaptchaCallback() {
       const event = new Event("captchaChange");
       document.getElementById("sib-captcha")?.dispatchEvent(event);
+    };
+    window.executeCaptcha = function executeCaptcha() {
+      if (window.grecaptcha && typeof window.grecaptcha.execute === "function") {
+        window.grecaptcha.execute();
+      }
     };
 
     if (!document.getElementById("brevo-form-stylesheet")) {
@@ -205,6 +210,45 @@ export default function ProjectsPage() {
       styleSheet.rel = "stylesheet";
       styleSheet.href = "https://sibforms.com/forms/end-form/build/sib-styles.css";
       document.head.appendChild(styleSheet);
+    }
+
+    if (!document.getElementById("brevo-theme-overrides")) {
+      const styleTag = document.createElement("style");
+      styleTag.id = "brevo-theme-overrides";
+      styleTag.textContent = `
+        @font-face {
+          font-display: block;
+          font-family: Roboto;
+          src: url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/7529907e9eaf8ebb5220c5f9850e3811.woff2) format("woff2"),
+               url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/25c678feafdc175a70922a116c9be3e7.woff) format("woff");
+        }
+
+        #sib-container input::placeholder,
+        #sib-container textarea::placeholder {
+          color: rgb(148 163 184);
+          opacity: 1;
+        }
+
+        #sib-form-container .entry__error {
+          color: rgb(252 165 165);
+          margin-top: 0.5rem;
+        }
+
+        #sib-form-container .sib-form-message-panel {
+          display: none;
+        }
+
+        #sib-form-container #success-message,
+        #sib-form-container #error-message {
+          animation: fadeIn 250ms ease-out;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(4px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `;
+      document.head.appendChild(styleTag);
     }
 
     if (!document.getElementById("brevo-main-script")) {
@@ -314,81 +358,135 @@ export default function ProjectsPage() {
 
             <div className="sib-form max-w-xl mx-auto animate-in slide-in-from-bottom duration-700 delay-200 text-left">
               <div id="sib-form-container" className="sib-form-container">
-                <form
-                  id="sib-form"
-                  method="POST"
-                  data-type="subscription"
-                  action="https://ab76e2eb.sibforms.com/serve/MUIFABHYsRs9I4xAk4AkXGCucrb0jrmvZABHwnCevZHYtN9px2gvwjdQm79JdNLB2bqtepMkTnZPOH51Gy64QygvCEzI6Nd_K69af1HzANFGS18dSM2ij1c8rgtUfkBAbjAr2CvmO84l7XM9Sj26VTjcZZDgAHN5T0NFX8-5A6Umnb2QnBJHXB7VbtodhCCdj_ifq_NMP99mq6zIog=="
+                <div
+                  id="error-message"
+                  className="sib-form-message-panel rounded-xl border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200 mb-4 text-left"
                 >
-                  <div
-                    id="error-message"
-                    className="sib-form-message-panel hidden rounded-lg border border-red-400/40 bg-red-500/10 p-3 text-sm text-red-200 mb-4 text-left"
-                  >
-                    <div className="sib-form-message-panel__text">
-                      Your subscription could not be saved. Please try again.
-                    </div>
+                  <div className="sib-form-message-panel__text">
+                    Your subscription could not be saved. Please try again.
                   </div>
-                  <div
-                    id="success-message"
-                    className="sib-form-message-panel hidden rounded-lg border border-green-400/40 bg-green-500/10 p-3 text-sm text-green-200 mb-4 text-left"
-                  >
-                    <div className="sib-form-message-panel__text">
-                      Your subscription has been successful.
-                    </div>
+                </div>
+                <div
+                  id="success-message"
+                  className="sib-form-message-panel rounded-xl border border-green-400/40 bg-green-500/10 px-4 py-3 text-sm text-green-200 mb-4 text-left"
+                >
+                  <div className="sib-form-message-panel__text">
+                    Your subscription has been successful.
                   </div>
+                </div>
 
-                  <div className="group flex flex-col sm:flex-row gap-3">
-                    <div className="relative flex-1">
-                      <Mail className="w-4 h-4 text-gray-500 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-orange-300 transition-colors duration-300" />
-                      <input
-                        type="email"
-                        id="EMAIL"
-                        name="EMAIL"
-                        required
-                        data-required="true"
-                        autoComplete="off"
-                        placeholder="Enter your email address"
-                        className="input w-full h-11 pl-11 pr-4 rounded-xl border border-slate-700 bg-slate-950/80 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:border-orange-500/50 transition-all duration-300"
+                <div
+                  id="sib-container"
+                  className="sib-container--large sib-container--vertical rounded-2xl border border-slate-700/80 bg-slate-950/70 p-5 sm:p-6 shadow-[0_0_40px_rgba(15,23,42,0.35)] backdrop-blur"
+                  style={{ direction: "ltr" }}
+                >
+                  <form
+                    id="sib-form"
+                    method="POST"
+                    data-type="subscription"
+                    action="https://ab76e2eb.sibforms.com/serve/MUIFABHYsRs9I4xAk4AkXGCucrb0jrmvZABHwnCevZHYtN9px2gvwjdQm79JdNLB2bqtepMkTnZPOH51Gy64QygvCEzI6Nd_K69af1HzANFGS18dSM2ij1c8rgtUfkBAbjAr2CvmO84l7XM9Sj26VTjcZZDgAHN5T0NFX8-5A6Umnb2QnBJHXB7VbtodhCCdj_ifq_NMP99mq6zIog=="
+                  >
+                    <div className="pb-4">
+                      <p className="text-2xl sm:text-3xl font-bold text-orange-400">Newsletter</p>
+                    </div>
+
+                    <div className="pb-5">
+                      <p className="text-sm text-slate-300">
+                        Subscribe to our newsletter and stay updated.
+                      </p>
+                    </div>
+
+                    <div className="pb-3">
+                      <div className="sib-input sib-form-block">
+                        <div className="form__entry entry_block">
+                          <div className="form__label-row">
+                            <label
+                              className="entry__label mb-2 block text-sm font-semibold text-slate-100"
+                              htmlFor="EMAIL"
+                              data-required="*"
+                            >
+                              Enter your email address to subscribe
+                            </label>
+
+                            <div className="entry__field relative">
+                              <Mail className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-300" />
+                              <input
+                                className="input w-full h-11 pl-11 pr-4 rounded-xl border border-slate-700 bg-slate-900/90 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:border-orange-500/60 transition-all duration-300"
+                                type="text"
+                                id="EMAIL"
+                                name="EMAIL"
+                                autoComplete="off"
+                                placeholder="EMAIL"
+                                data-required="true"
+                                required
+                              />
+                            </div>
+                          </div>
+
+                          <label className="entry__error entry__error--primary text-sm text-red-300" />
+                          <label className="entry__specification mt-2 block text-xs text-slate-400">
+                            Provide your email address to subscribe. For e.g abc@xyz.com
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="py-2 flex justify-center">
+                      <div
+                        className="g-recaptcha"
+                        id="sib-captcha"
+                        data-sitekey="6LemQq4sAAAAAGzpUm304Gh3UGPcTwKk3_1X0Vmz"
+                        data-callback="invisibleCaptchaCallback"
+                        data-size="invisible"
+                        onClick={() => window.executeCaptcha?.()}
                       />
                     </div>
-                    <label className="entry__error entry__error--primary hidden"></label>
-                    <button
-                      type="submit"
-                      className="sib-form-block__button sib-form-block__button-with-loader h-11 px-6 rounded-xl bg-gradient-to-b from-orange-500 to-orange-400 text-white font-semibold text-sm hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all duration-300"
-                    >
-                      Subscribe
-                    </button>
-                  </div>
 
-                  <p className="text-xs text-gray-500 mt-3 text-left sm:text-center">
-                    We respect your inbox. You can unsubscribe anytime.
-                  </p>
+                    <div className="pt-2 pb-4">
+                      <div className="sib-form-block text-left">
+                        <button
+                          className="sib-form-block__button sib-form-block__button-with-loader h-11 px-6 rounded-xl bg-gradient-to-b from-orange-500 to-orange-400 text-slate-950 font-bold text-sm hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all duration-300"
+                          form="sib-form"
+                          type="submit"
+                        >
+                          <svg
+                            className="icon clickable__icon progress-indicator__icon sib-hide-loader-icon"
+                            viewBox="0 0 512 512"
+                          >
+                            <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
+                          </svg>
+                          SUBSCRIBE
+                        </button>
+                      </div>
+                    </div>
 
-                  <div className="mt-4 flex justify-center">
-                    <div
-                      className="g-recaptcha scale-[0.92] origin-top"
-                      id="sib-captcha"
-                      data-sitekey="6LemQq4sAAAAAGzpUm304Gh3UGPcTwKk3_1X0Vmz"
-                      data-callback="handleCaptchaResponse"
+                    <div className="border-t border-slate-800 pt-4">
+                      <p className="text-xs text-slate-300 leading-relaxed">
+                        We use Brevo as our marketing platform. By submitting this form you agree that the personal data you provided will be transferred to Brevo for processing in accordance with {" "}
+                        <a
+                          href="https://www.brevo.com/en/legal/privacypolicy/"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-orange-300 underline hover:text-orange-200 transition-colors"
+                        >
+                          Brevo&apos;s Privacy Policy.
+                        </a>
+                      </p>
+                    </div>
+
+                    <input
+                      type="text"
+                      name="email_address_check"
+                      defaultValue=""
+                      className="hidden"
+                      tabIndex="-1"
+                      autoComplete="off"
                     />
-                  </div>
-                  <p className="text-xs text-gray-500 mt-2 text-left sm:text-center">
-                    Form secured by reCAPTCHA
-                  </p>
-
-                  {/* Brevo-required hidden fields */}
-                  <input
-                    type="text"
-                    name="email_address_check"
-                    defaultValue=""
-                    className="hidden"
-                    tabIndex="-1"
-                    autoComplete="off"
-                  />
-                  <input type="hidden" name="locale" value="en" />
-                </form>
+                    <input type="hidden" name="locale" value="en" />
+                  </form>
                 </div>
               </div>
+            </div>
 
             <div className="mt-5">
               <button className="px-6 py-2.5 bg-white/5 border border-white/10 rounded-lg font-semibold text-sm transition-all duration-300 hover:bg-white/10">
