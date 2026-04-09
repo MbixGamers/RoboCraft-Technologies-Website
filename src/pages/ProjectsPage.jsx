@@ -155,6 +155,7 @@ function CategoryCard({ category, initialOpen }) {
 
 export default function ProjectsPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [subscribeState, setSubscribeState] = useState("idle");
   const [searchParams] = useSearchParams();
   const expandId = searchParams.get("expand");
   const mergedCategories = getMergedCategories(projectCategories);
@@ -177,32 +178,27 @@ export default function ProjectsPage() {
     setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
-  useEffect(() => {
-    window.REQUIRED_CODE_ERROR_MESSAGE = "Please choose a country code";
-    window.LOCALE = "en";
-    window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE =
-      "The information provided is invalid. Please review the field format and try again.";
-    window.REQUIRED_ERROR_MESSAGE = "This field cannot be left blank. ";
-    window.GENERIC_INVALID_MESSAGE =
-      "The information provided is invalid. Please review the field format and try again.";
-    window.translation = {
-      common: {
-        selectedList: "{quantity} list selected",
-        selectedLists: "{quantity} lists selected",
-        selectedOption: "{quantity} selected",
-        selectedOptions: "{quantity} selected",
-      },
-    };
-    window.AUTOHIDE = Boolean(0);
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    setSubscribeState("submitting");
 
-    if (!document.getElementById("brevo-main-script")) {
-      const script = document.createElement("script");
-      script.id = "brevo-main-script";
-      script.defer = true;
-      script.src = "https://sibforms.com/forms/end-form/build/main.js";
-      document.body.appendChild(script);
+    try {
+      const formData = new FormData(e.currentTarget);
+      await fetch(
+        "https://ab76e2eb.sibforms.com/serve/MUIFABHYsRs9I4xAk4AkXGCucrb0jrmvZABHwnCevZHYtN9px2gvwjdQm79JdNLB2bqtepMkTnZPOH51Gy64QygvCEzI6Nd_K69af1HzANFGS18dSM2ij1c8rgtUfkBAbjAr2CvmO84l7XM9Sj26VTjcZZDgAHN5T0NFX8-5A6Umnb2QnBJHXB7VbtodhCCdj_ifq_NMP99mq6zIog==",
+        {
+          method: "POST",
+          mode: "no-cors",
+          body: formData,
+        },
+      );
+
+      e.currentTarget.reset();
+      setSubscribeState("success");
+    } catch {
+      setSubscribeState("error");
     }
-  }, []);
+  };
 
   return (
     <div
@@ -293,11 +289,10 @@ export default function ProjectsPage() {
 
             <form
               id="sib-form"
+              onSubmit={handleSubscribe}
               method="POST"
               data-type="subscription"
               action="https://ab76e2eb.sibforms.com/serve/MUIFABHYsRs9I4xAk4AkXGCucrb0jrmvZABHwnCevZHYtN9px2gvwjdQm79JdNLB2bqtepMkTnZPOH51Gy64QygvCEzI6Nd_K69af1HzANFGS18dSM2ij1c8rgtUfkBAbjAr2CvmO84l7XM9Sj26VTjcZZDgAHN5T0NFX8-5A6Umnb2QnBJHXB7VbtodhCCdj_ifq_NMP99mq6zIog=="
-              target="_blank"
-              rel="noreferrer"
               className="max-w-xl mx-auto animate-in slide-in-from-bottom duration-700 delay-200"
             >
               <div className="group flex flex-col sm:flex-row gap-3">
@@ -316,15 +311,26 @@ export default function ProjectsPage() {
                 </div>
                 <button
                   type="submit"
+                  disabled={subscribeState === "submitting"}
                   className="h-11 px-6 rounded-xl bg-gradient-to-b from-orange-500 to-orange-400 text-white font-semibold text-sm hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all duration-300"
                 >
-                  Subscribe
+                  {subscribeState === "submitting" ? "Subscribing..." : "Subscribe"}
                 </button>
               </div>
 
               <p className="text-xs text-gray-500 mt-3 text-left sm:text-center">
                 We respect your inbox. You can unsubscribe anytime.
               </p>
+              {subscribeState === "success" && (
+                <p className="text-xs text-green-400 mt-2 text-left sm:text-center">
+                  Subscription successful. Please check your inbox.
+                </p>
+              )}
+              {subscribeState === "error" && (
+                <p className="text-xs text-red-400 mt-2 text-left sm:text-center">
+                  Could not subscribe right now. Please try again.
+                </p>
+              )}
 
               {/* Brevo-required hidden fields */}
               <input
