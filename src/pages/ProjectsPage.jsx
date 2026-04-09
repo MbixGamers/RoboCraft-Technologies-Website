@@ -229,12 +229,64 @@ export default function ProjectsPage() {
           opacity: 1;
         }
 
+        #sib-form-container #sib-container {
+          background: rgba(2, 6, 23, 0.78) !important;
+          border: 1px solid rgba(51, 65, 85, 0.85) !important;
+          box-shadow: 0 0 40px rgba(15, 23, 42, 0.35) !important;
+        }
+
+        #sib-form-container #sib-container p,
+        #sib-form-container #sib-container label {
+          color: rgb(226 232 240) !important;
+        }
+
+        #sib-form-container #sib-container a {
+          color: rgb(253 186 116) !important;
+        }
+
+        #sib-form-container #sib-container .entry__label {
+          font-size: 0.875rem !important;
+          font-weight: 600 !important;
+        }
+
+        #sib-form-container #sib-container input {
+          background: rgba(15, 23, 42, 0.9) !important;
+          border: 1px solid rgb(51 65 85) !important;
+          color: rgb(248 250 252) !important;
+          padding-left: 1rem !important;
+          height: 2.75rem !important;
+          border-radius: 0.75rem !important;
+          box-shadow: none !important;
+        }
+
+        #sib-form-container #sib-container input:focus {
+          border-color: rgba(249, 115, 22, 0.6) !important;
+          box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.25) !important;
+        }
+
+        #sib-form-container #sib-container .entry__field:before,
+        #sib-form-container #sib-container .entry__field:after {
+          display: none !important;
+        }
+
         #sib-form-container .entry__specification {
           margin-top: 0.625rem;
         }
 
         #sib-form-container .sib-form-block {
           margin-bottom: 0;
+        }
+
+        #sib-form-container .sib-form-block__button {
+          background: linear-gradient(to bottom, rgb(249 115 22), rgb(251 146 60)) !important;
+          color: rgb(2 6 23) !important;
+          border: 0 !important;
+          font-weight: 700 !important;
+          border-radius: 0.75rem !important;
+        }
+
+        #sib-form-container .sib-form-block__button:hover {
+          filter: brightness(1.05);
         }
 
         #sib-form-container .entry__error {
@@ -416,9 +468,8 @@ export default function ProjectsPage() {
                             </label>
 
                             <div className="entry__field relative">
-                              <Mail className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-300" />
                               <input
-                                className="input w-full h-11 pl-11 pr-4 rounded-xl border border-slate-700 bg-slate-900/90 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:border-orange-500/60 transition-all duration-300"
+                                className="input w-full pr-4 rounded-xl text-sm text-white placeholder:text-slate-400 focus:outline-none transition-all duration-300"
                                 type="text"
                                 id="EMAIL"
                                 name="EMAIL"
