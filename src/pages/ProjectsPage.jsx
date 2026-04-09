@@ -155,7 +155,6 @@ function CategoryCard({ category, initialOpen }) {
 
 export default function ProjectsPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isSubscribing, setIsSubscribing] = useState(false);
   const [searchParams] = useSearchParams();
   const expandId = searchParams.get("expand");
   const mergedCategories = getMergedCategories(projectCategories);
@@ -217,23 +216,6 @@ export default function ProjectsPage() {
       const styleTag = document.createElement("style");
       styleTag.id = "brevo-theme-overrides";
       styleTag.textContent = `
-        #sib-form-container .sib-form-message-panel {
-          display: none;
-          border-width: 1px;
-          border-style: solid;
-          border-radius: 0.75rem;
-          padding: 0.85rem 1rem;
-          backdrop-filter: blur(10px);
-          box-shadow: 0 10px 30px rgba(2, 6, 23, 0.35);
-        }
-
-        #sib-form-container .sib-form-message-panel__text {
-          margin: 0;
-          font-size: 0.9rem;
-          line-height: 1.45;
-          letter-spacing: 0.01em;
-        }
-
         @font-face {
           font-display: block;
           font-family: Roboto;
@@ -259,39 +241,31 @@ export default function ProjectsPage() {
 
         #sib-container input:-ms-input-placeholder {
           text-align: left;
-          font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-          color: #94a3b8;
+          font-family: Helvetica, sans-serif;
+          color: #c0ccda;
         }
 
         #sib-container input::placeholder {
           text-align: left;
-          font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-          color: #94a3b8;
+          font-family: Helvetica, sans-serif;
+          color: #c0ccda;
         }
 
         #sib-container textarea::placeholder {
           text-align: left;
-          font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-          color: #94a3b8;
+          font-family: Helvetica, sans-serif;
+          color: #c0ccda;
         }
 
         #sib-container a {
           text-decoration: underline;
-          color: #fb923c;
-          text-underline-offset: 3px;
-        }
-
-        #sib-container .entry__error {
-          margin-top: 0.6rem;
-        }
-
-        #sib-container .entry__specification {
-          display: block;
-          margin-top: 0.5rem;
+          color: #2BB2FC;
         }
 
         #sib-container .sib-form-block__button {
           width: 100%;
+          text-transform: uppercase;
+          letter-spacing: 0.02em;
           transition: all 0.2s ease-in-out;
           box-shadow: 0 10px 30px rgba(249, 115, 22, 0.28);
         }
@@ -299,6 +273,22 @@ export default function ProjectsPage() {
         #sib-container .sib-form-block__button:hover {
           transform: translateY(-1px);
           filter: brightness(1.05);
+        }
+
+        #sib-form-container .sib-form-message-panel {
+          border-width: 1px;
+          border-style: solid;
+          border-radius: 0.75rem;
+          padding: 0.85rem 1rem;
+          backdrop-filter: blur(10px);
+          box-shadow: 0 10px 30px rgba(2, 6, 23, 0.35);
+        }
+
+        #sib-form-container .sib-form-message-panel__text {
+          margin: 0;
+          font-size: 0.9rem;
+          line-height: 1.45;
+          letter-spacing: 0.01em;
         }
       `;
       document.head.appendChild(styleTag);
@@ -427,24 +417,40 @@ export default function ProjectsPage() {
                   }}
                 >
                   <div className="sib-form-message-panel__text sib-form-message-panel__text--center">
-                    Your subscription could not be saved. Please try again.
+                    <svg viewBox="0 0 512 512" className="sib-icon sib-notification__icon">
+                      <path d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-11.49 120h22.979c6.823 0 12.274 5.682 11.99 12.5l-7 168c-.268 6.428-5.556 11.5-11.99 11.5h-8.979c-6.433 0-11.722-5.073-11.99-11.5l-7-168c-.283-6.818 5.167-12.5 11.99-12.5zM256 340c-15.464 0-28 12.536-28 28s12.536 28 28 28 28-12.536 28-28-12.536-28-28-28z" />
+                    </svg>
+                    <span className="sib-form-message-panel__inner-text">
+                      Your subscription could not be saved. Please try again.
+                    </span>
                   </div>
                 </div>
-                <div id="success-message" className="sib-form-message-panel" style={{
-                  fontSize: "14px",
-                  textAlign: "left",
-                  fontFamily:
-                    'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-                  color: "#bbf7d0",
-                  backgroundColor: "rgba(21, 128, 61, 0.28)",
-                  borderRadius: "12px",
-                  borderColor: "rgba(74, 222, 128, 0.4)",
-                  maxWidth: "540px",
-                }}>
+                <div />
+                <div
+                  id="success-message"
+                  className="sib-form-message-panel"
+                  style={{
+                    fontSize: "14px",
+                    textAlign: "left",
+                    fontFamily:
+                      'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+                    color: "#bbf7d0",
+                    backgroundColor: "rgba(21, 128, 61, 0.28)",
+                    borderRadius: "12px",
+                    borderColor: "rgba(74, 222, 128, 0.4)",
+                    maxWidth: "540px",
+                  }}
+                >
                   <div className="sib-form-message-panel__text sib-form-message-panel__text--center">
-                    Your subscription has been successful.
+                    <svg viewBox="0 0 512 512" className="sib-icon sib-notification__icon">
+                      <path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 464c-118.664 0-216-96.055-216-216 0-118.663 96.055-216 216-216 118.664 0 216 96.055 216 216 0 118.663-96.055 216-216 216zm141.63-274.961L217.15 376.071c-4.705 4.667-12.303 4.637-16.97-.068l-85.878-86.572c-4.667-4.705-4.637-12.303.068-16.97l8.52-8.451c4.705-4.667 12.303-4.637 16.97.068l68.976 69.533 163.441-162.13c4.705-4.667 12.303-4.637 16.97.068l8.451 8.52c4.668 4.705 4.637 12.303-.068 16.97z" />
+                    </svg>
+                    <span className="sib-form-message-panel__inner-text">
+                      Your subscription has been successful.
+                    </span>
                   </div>
                 </div>
+                <div />
 
                 <div
                   id="sib-container"
@@ -467,16 +473,15 @@ export default function ProjectsPage() {
                     method="POST"
                     data-type="subscription"
                     action="https://ab76e2eb.sibforms.com/serve/MUIFABHYsRs9I4xAk4AkXGCucrb0jrmvZABHwnCevZHYtN9px2gvwjdQm79JdNLB2bqtepMkTnZPOH51Gy64QygvCEzI6Nd_K69af1HzANFGS18dSM2ij1c8rgtUfkBAbjAr2CvmO84l7XM9Sj26VTjcZZDgAHN5T0NFX8-5A6Umnb2QnBJHXB7VbtodhCCdj_ifq_NMP99mq6zIog=="
-                    onSubmit={() => setIsSubscribing(true)}
                   >
                     <div style={{ padding: "16px 0" }}>
-                      <div className="sib-form-block" style={{ fontSize: "30px", textAlign: "left", fontWeight: 700, fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', lineHeight: "1.1", letterSpacing: "-0.02em", color: "#fdba74", backgroundColor: "transparent" }}>
+                      <div className="sib-form-block" style={{ fontSize: "32px", textAlign: "left", fontWeight: 700, fontFamily: '"Comic Sans MS", sans-serif', color: "#fa7b03", backgroundColor: "transparent" }}>
                         <p>Newsletter</p>
                       </div>
                     </div>
 
                     <div style={{ padding: "16px 0" }}>
-                      <div className="sib-form-block" style={{ fontSize: "15px", textAlign: "left", lineHeight: "1.6", fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', color: "#cbd5e1", backgroundColor: "transparent" }}>
+                      <div className="sib-form-block" style={{ fontSize: "16px", textAlign: "left", fontFamily: "Helvetica, sans-serif", color: "#e2e8f0", backgroundColor: "transparent" }}>
                         <div className="sib-text-form-block">
                           <p>Subscribe to our newsletter and stay updated.</p>
                         </div>
@@ -487,7 +492,7 @@ export default function ProjectsPage() {
                       <div className="sib-input sib-form-block">
                         <div className="form__entry entry_block">
                           <div className="form__label-row">
-                            <label className="entry__label" style={{ fontWeight: 700, textAlign: "left", fontSize: "14px", fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', letterSpacing: "0.01em", color: "#f8fafc" }} htmlFor="EMAIL" data-required="*">
+                            <label className="entry__label" style={{ fontWeight: 700, textAlign: "left", fontSize: "16px", fontFamily: "Helvetica, sans-serif", color: "#f8fafc" }} htmlFor="EMAIL" data-required="*">
                               Enter your email address to subscribe
                             </label>
 
@@ -500,13 +505,12 @@ export default function ProjectsPage() {
                                 autoComplete="off"
                                 placeholder="EMAIL"
                                 style={{
-                                  borderRadius: "10px",
+                                  borderRadius: "8px",
                                   border: "1px solid rgba(148, 163, 184, 0.4)",
                                   backgroundColor: "rgba(15, 23, 42, 0.76)",
                                   color: "#f8fafc",
-                                  fontSize: "14px",
-                                  fontFamily:
-                                    'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+                                  fontSize: "15px",
+                                  fontFamily: "Helvetica, sans-serif",
                                   boxShadow: "inset 0 1px 2px rgba(15, 23, 42, 0.65)",
                                 }}
                                 data-required="true"
@@ -515,8 +519,8 @@ export default function ProjectsPage() {
                             </div>
                           </div>
 
-                          <label className="entry__error entry__error--primary" style={{ fontSize: "13px", textAlign: "left", fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', color: "#fca5a5", backgroundColor: "rgba(127, 29, 29, 0.35)", borderRadius: "10px", borderColor: "rgba(248, 113, 113, 0.5)" }} />
-                          <label className="entry__specification" style={{ fontSize: "12px", textAlign: "left", fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', color: "#94a3b8" }}>
+                          <label className="entry__error entry__error--primary" style={{ fontSize: "16px", textAlign: "left", fontFamily: "Helvetica, sans-serif", color: "#661d1d", backgroundColor: "#ffeded", borderRadius: "3px", borderColor: "#ff4949" }} />
+                          <label className="entry__specification" style={{ fontSize: "12px", textAlign: "left", fontFamily: "Helvetica, sans-serif", color: "#94a3b8" }}>
                             Provide your email address to subscribe. For e.g abc@xyz.com
                           </label>
                         </div>
@@ -538,18 +542,33 @@ export default function ProjectsPage() {
                       <div className="sib-form-block" style={{ textAlign: "left" }}>
                         <button
                           className="sib-form-block__button sib-form-block__button-with-loader"
-                          style={{ fontSize: "14px", letterSpacing: "0.02em", textAlign: "center", fontWeight: 700, fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', color: "#fff7ed", background: "linear-gradient(90deg, #f97316, #fb923c)", borderRadius: "10px", borderWidth: "0px", padding: "0.85rem 1rem" }}
+                          style={{ fontSize: "16px", textAlign: "left", fontWeight: 700, fontFamily: '"Trebuchet MS", sans-serif', color: "#171515", backgroundColor: "#06e70e", borderRadius: "3px", borderWidth: "0px" }}
                           form="sib-form"
                           type="submit"
                         >
-                          Subscribe
+                          <svg className="icon clickable__icon progress-indicator__icon sib-hide-loader-icon" viewBox="0 0 512 512">
+                            <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
+                          </svg>
+                          SUBSCRIBE
                         </button>
                       </div>
                     </div>
 
                     <div style={{ padding: "16px 0" }}>
                       <div className="sib-form__declaration" style={{ direction: "ltr" }}>
-                        <div style={{ fontSize: "13px", lineHeight: "1.6", textAlign: "left", fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', color: "#94a3b8", backgroundColor: "transparent" }}>
+                        <div className="declaration-block-icon">
+                          <svg className="icon__SVG" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                              <symbol id="svgIcon-sphere" viewBox="0 0 63 63">
+                                <path className="path1" d="M31.54 0l1.05 3.06 3.385-.01-2.735 1.897 1.05 3.042-2.748-1.886-2.738 1.886 1.044-3.05-2.745-1.897h3.393zm13.97 3.019L46.555 6.4l3.384.01-2.743 2.101 1.048 3.387-2.752-2.1-2.752 2.1 1.054-3.382-2.745-2.105h3.385zm9.998 10.056l1.039 3.382h3.38l-2.751 2.1 1.05 3.382-2.744-2.091-2.743 2.091 1.054-3.381-2.754-2.1h3.385zM58.58 27.1l1.04 3.372h3.379l-2.752 2.096 1.05 3.387-2.744-2.091-2.75 2.092 1.054-3.387-2.747-2.097h3.376zm-3.076 14.02l1.044 3.364h3.385l-2.743 2.09 1.05 3.392-2.744-2.097-2.743 2.097 1.052-3.377-2.752-2.117 3.385-.01zm-9.985 9.91l1.045 3.364h3.393l-2.752 2.09 1.05 3.393-2.745-2.097-2.743 2.097 1.05-3.383-2.751-2.1 3.384-.01zM31.45 55.01l1.044 3.043 3.393-.008-2.752 1.9L34.19 63l-2.744-1.895-2.748 1.891 1.054-3.05-2.743-1.9h3.384zm-13.934-3.98l1.036 3.364h3.402l-2.752 2.09 1.053 3.393-2.747-2.097-2.752 2.097 1.053-3.382-2.743-2.1 3.384-.01zm-9.981-9.91l1.045 3.364h3.398l-2.748 2.09 1.05 3.392-2.753-2.1-2.752 2.096 1.053-3.382-2.743-2.102 3.384-.009zM4.466 27.1l1.038 3.372H8.88l-2.752 2.097 1.053 3.387-2.743-2.09-2.748 2.09 1.053-3.387L0 30.472h3.385zm3.069-14.025l1.045 3.382h3.395L9.23 18.56l1.05 3.381-2.752-2.09-2.752 2.09 1.053-3.381-2.744-2.1h3.384zm9.99-10.056L18.57 6.4l3.393.01-2.743 2.1 1.05 3.373-2.754-2.092-2.751 2.092 1.053-3.382-2.744-2.1h3.384zm24.938 19.394l-10-4.22a2.48 2.48 0 00-1.921 0l-10 4.22A2.529 2.529 0 0019 24.75c0 10.47 5.964 17.705 11.537 20.057a2.48 2.48 0 001.921 0C36.921 42.924 44 36.421 44 24.75a2.532 2.532 0 00-1.537-2.336zm-2.46 6.023l-9.583 9.705a.83.83 0 01-1.177 0l-5.416-5.485a.855.855 0 010-1.192l1.177-1.192a.83.83 0 011.177 0l3.65 3.697 7.819-7.916a.83.83 0 011.177 0l1.177 1.191a.843.843 0 010 1.192z" fill="#0092FF" />
+                              </symbol>
+                            </defs>
+                          </svg>
+                          <svg className="svgIcon-sphere" style={{ width: "63px", height: "63px" }}>
+                            <use xlinkHref="#svgIcon-sphere" />
+                          </svg>
+                        </div>
+                        <div style={{ fontSize: "14px", textAlign: "left", fontFamily: "Helvetica, sans-serif", color: "#ffffff", backgroundColor: "transparent" }}>
                           <p>
                             We use Brevo as our marketing platform. By submitting this form you agree that the personal data you provided will be transferred to Brevo for processing in accordance with{" "}
                             <a href="https://www.brevo.com/en/legal/privacypolicy/" target="_blank" rel="noreferrer">
