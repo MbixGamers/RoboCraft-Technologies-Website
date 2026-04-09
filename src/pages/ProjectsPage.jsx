@@ -155,7 +155,6 @@ function CategoryCard({ category, initialOpen }) {
 
 export default function ProjectsPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [subscribeError, setSubscribeError] = useState("");
   const [searchParams] = useSearchParams();
   const expandId = searchParams.get("expand");
   const mergedCategories = getMergedCategories(projectCategories);
@@ -195,6 +194,18 @@ export default function ProjectsPage() {
       },
     };
     window.AUTOHIDE = Boolean(0);
+    window.handleCaptchaResponse = function handleCaptchaResponse() {
+      const event = new Event("captchaChange");
+      document.getElementById("sib-captcha")?.dispatchEvent(event);
+    };
+
+    if (!document.getElementById("brevo-form-stylesheet")) {
+      const styleSheet = document.createElement("link");
+      styleSheet.id = "brevo-form-stylesheet";
+      styleSheet.rel = "stylesheet";
+      styleSheet.href = "https://sibforms.com/forms/end-form/build/sib-styles.css";
+      document.head.appendChild(styleSheet);
+    }
 
     if (!document.getElementById("brevo-main-script")) {
       const script = document.createElement("script");
@@ -301,65 +312,83 @@ export default function ProjectsPage() {
               Subscribe for new project drops, tutorials, and release updates.
             </p>
 
-            <form
-              id="sib-form"
-              method="POST"
-              data-type="subscription"
-              action="https://ab76e2eb.sibforms.com/serve/MUIFABHYsRs9I4xAk4AkXGCucrb0jrmvZABHwnCevZHYtN9px2gvwjdQm79JdNLB2bqtepMkTnZPOH51Gy64QygvCEzI6Nd_K69af1HzANFGS18dSM2ij1c8rgtUfkBAbjAr2CvmO84l7XM9Sj26VTjcZZDgAHN5T0NFX8-5A6Umnb2QnBJHXB7VbtodhCCdj_ifq_NMP99mq6zIog=="
-              target="_blank"
-              rel="noreferrer"
-              className="max-w-xl mx-auto animate-in slide-in-from-bottom duration-700 delay-200"
-            >
-              <div className="group flex flex-col sm:flex-row gap-3">
-                <div className="relative flex-1">
-                  <Mail className="w-4 h-4 text-gray-500 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-orange-300 transition-colors duration-300" />
-                  <input
-                    type="email"
-                    id="EMAIL"
-                    name="EMAIL"
-                    required
-                    data-required="true"
-                    autoComplete="off"
-                    placeholder="Enter your email address"
-                    className="w-full h-11 pl-11 pr-4 rounded-xl border border-slate-700 bg-slate-950/80 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:border-orange-500/50 transition-all duration-300"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="h-11 px-6 rounded-xl bg-gradient-to-b from-orange-500 to-orange-400 text-white font-semibold text-sm hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all duration-300"
+            <div className="sib-form max-w-xl mx-auto animate-in slide-in-from-bottom duration-700 delay-200 text-left">
+              <div id="sib-form-container" className="sib-form-container">
+                <form
+                  id="sib-form"
+                  method="POST"
+                  data-type="subscription"
+                  action="https://ab76e2eb.sibforms.com/serve/MUIFABHYsRs9I4xAk4AkXGCucrb0jrmvZABHwnCevZHYtN9px2gvwjdQm79JdNLB2bqtepMkTnZPOH51Gy64QygvCEzI6Nd_K69af1HzANFGS18dSM2ij1c8rgtUfkBAbjAr2CvmO84l7XM9Sj26VTjcZZDgAHN5T0NFX8-5A6Umnb2QnBJHXB7VbtodhCCdj_ifq_NMP99mq6zIog=="
                 >
-                  Subscribe
-                </button>
+                  <div
+                    id="error-message"
+                    className="sib-form-message-panel hidden rounded-lg border border-red-400/40 bg-red-500/10 p-3 text-sm text-red-200 mb-4 text-left"
+                  >
+                    <div className="sib-form-message-panel__text">
+                      Your subscription could not be saved. Please try again.
+                    </div>
+                  </div>
+                  <div
+                    id="success-message"
+                    className="sib-form-message-panel hidden rounded-lg border border-green-400/40 bg-green-500/10 p-3 text-sm text-green-200 mb-4 text-left"
+                  >
+                    <div className="sib-form-message-panel__text">
+                      Your subscription has been successful.
+                    </div>
+                  </div>
+
+                  <div className="group flex flex-col sm:flex-row gap-3">
+                    <div className="relative flex-1">
+                      <Mail className="w-4 h-4 text-gray-500 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-orange-300 transition-colors duration-300" />
+                      <input
+                        type="email"
+                        id="EMAIL"
+                        name="EMAIL"
+                        required
+                        data-required="true"
+                        autoComplete="off"
+                        placeholder="Enter your email address"
+                        className="input w-full h-11 pl-11 pr-4 rounded-xl border border-slate-700 bg-slate-950/80 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:border-orange-500/50 transition-all duration-300"
+                      />
+                    </div>
+                    <label className="entry__error entry__error--primary hidden"></label>
+                    <button
+                      type="submit"
+                      className="sib-form-block__button sib-form-block__button-with-loader h-11 px-6 rounded-xl bg-gradient-to-b from-orange-500 to-orange-400 text-white font-semibold text-sm hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all duration-300"
+                    >
+                      Subscribe
+                    </button>
+                  </div>
+
+                  <p className="text-xs text-gray-500 mt-3 text-left sm:text-center">
+                    We respect your inbox. You can unsubscribe anytime.
+                  </p>
+
+                  <div className="mt-4 flex justify-center">
+                    <div
+                      className="g-recaptcha scale-[0.92] origin-top"
+                      id="sib-captcha"
+                      data-sitekey="6LemQq4sAAAAAGzpUm304Gh3UGPcTwKk3_1X0Vmz"
+                      data-callback="handleCaptchaResponse"
+                    />
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2 text-left sm:text-center">
+                    Form secured by reCAPTCHA
+                  </p>
+
+                  {/* Brevo-required hidden fields */}
+                  <input
+                    type="text"
+                    name="email_address_check"
+                    defaultValue=""
+                    className="hidden"
+                    tabIndex="-1"
+                    autoComplete="off"
+                  />
+                  <input type="hidden" name="locale" value="en" />
+                </form>
+                </div>
               </div>
-
-              <p className="text-xs text-gray-500 mt-3 text-left sm:text-center">
-                We respect your inbox. You can unsubscribe anytime.
-              </p>
-
-              <div className="mt-4 flex justify-center">
-                <div
-                  className="g-recaptcha scale-[0.92] origin-top"
-                  id="sib-captcha"
-                  data-sitekey="6LemQq4sAAAAAGzpUm304Gh3UGPcTwKk3_1X0Vmz"
-                  data-theme="dark"
-                  data-size="normal"
-                />
-              </div>
-              <p className="text-xs text-gray-500 mt-2 text-left sm:text-center">
-                Form secured by reCAPTCHA
-              </p>
-
-              {/* Brevo-required hidden fields */}
-              <input
-                type="text"
-                name="email_address_check"
-                defaultValue=""
-                className="hidden"
-                tabIndex="-1"
-                autoComplete="off"
-              />
-              <input type="hidden" name="locale" value="en" />
-            </form>
 
             <div className="mt-5">
               <button className="px-6 py-2.5 bg-white/5 border border-white/10 rounded-lg font-semibold text-sm transition-all duration-300 hover:bg-white/10">
