@@ -214,18 +214,6 @@ export default function ProjectsPage() {
     }
   }, []);
 
-  const handleSubscribe = (e) => {
-    setSubscribeError("");
-    const captchaResponse =
-      window.grecaptcha && typeof window.grecaptcha.getResponse === "function"
-        ? window.grecaptcha.getResponse()
-        : "";
-    if (!captchaResponse) {
-      e.preventDefault();
-      setSubscribeError("Please complete the reCAPTCHA before subscribing.");
-    }
-  };
-
   return (
     <div
       className="min-h-screen bg-slate-950 text-white pt-20 px-4 sm:px-6 lg:px-8 pb-16 relative overflow-hidden"
@@ -315,7 +303,6 @@ export default function ProjectsPage() {
 
             <form
               id="sib-form"
-              onSubmit={handleSubscribe}
               method="POST"
               data-type="subscription"
               action="https://ab76e2eb.sibforms.com/serve/MUIFABHYsRs9I4xAk4AkXGCucrb0jrmvZABHwnCevZHYtN9px2gvwjdQm79JdNLB2bqtepMkTnZPOH51Gy64QygvCEzI6Nd_K69af1HzANFGS18dSM2ij1c8rgtUfkBAbjAr2CvmO84l7XM9Sj26VTjcZZDgAHN5T0NFX8-5A6Umnb2QnBJHXB7VbtodhCCdj_ifq_NMP99mq6zIog=="
@@ -361,11 +348,6 @@ export default function ProjectsPage() {
               <p className="text-xs text-gray-500 mt-2 text-left sm:text-center">
                 Form secured by reCAPTCHA
               </p>
-              {subscribeError && (
-                <p className="text-xs text-red-400 mt-2 text-left sm:text-center">
-                  {subscribeError}
-                </p>
-              )}
 
               {/* Brevo-required hidden fields */}
               <input
