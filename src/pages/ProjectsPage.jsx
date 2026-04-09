@@ -229,6 +229,83 @@ export default function ProjectsPage() {
           opacity: 1;
         }
 
+        #sib-form-container #sib-container {
+          background: rgba(2, 6, 23, 0.78) !important;
+          border: 1px solid rgba(51, 65, 85, 0.85) !important;
+          box-shadow: 0 0 40px rgba(15, 23, 42, 0.35) !important;
+          overflow: hidden !important;
+        }
+
+        #sib-form-container #sib-container p,
+        #sib-form-container #sib-container label {
+          color: rgb(226 232 240) !important;
+        }
+
+        #sib-form-container #sib-container a {
+          color: rgb(253 186 116) !important;
+        }
+
+        #sib-form-container #sib-container .entry__label {
+          font-size: 0.875rem !important;
+          font-weight: 600 !important;
+        }
+
+        #sib-form-container #sib-container input {
+          background: rgba(15, 23, 42, 0.9) !important;
+          border: 1px solid rgb(51 65 85) !important;
+          color: rgb(248 250 252) !important;
+          padding-left: 1rem !important;
+          height: 2.75rem !important;
+          border-radius: 0.75rem !important;
+          box-shadow: none !important;
+        }
+
+        #sib-form-container #sib-container input:focus {
+          border-color: rgba(249, 115, 22, 0.6) !important;
+          box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.25) !important;
+        }
+
+        #sib-form-container #sib-container .entry__field:before,
+        #sib-form-container #sib-container .entry__field:after {
+          display: none !important;
+        }
+
+        #sib-form-container .entry__specification {
+          margin-top: 0.625rem;
+        }
+
+        #sib-form-container .sib-form-block {
+          margin-bottom: 0;
+        }
+
+        #sib-form-container .sib-form-block__button {
+          background: linear-gradient(to bottom, rgb(249 115 22), rgb(251 146 60)) !important;
+          color: rgb(2 6 23) !important;
+          border: 0 !important;
+          font-weight: 700 !important;
+          border-radius: 0.75rem !important;
+          min-width: 10rem !important;
+          display: inline-flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+          position: relative !important;
+          overflow: hidden !important;
+        }
+
+        #sib-form-container .sib-form-block__button:hover {
+          filter: brightness(1.05);
+        }
+
+        #sib-form-container #sib-captcha {
+          width: fit-content;
+          max-width: 100%;
+        }
+
+        #sib-form-container .grecaptcha-badge {
+          max-width: 100% !important;
+          box-shadow: none !important;
+        }
+
         #sib-form-container .entry__error {
           color: rgb(252 165 165);
           margin-top: 0.5rem;
@@ -343,20 +420,20 @@ export default function ProjectsPage() {
 
         {/* Bottom CTA */}
         <div className="mt-12 text-center">
-          <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 mb-4 animate-in slide-in-from-bottom duration-700">
+          <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 sm:p-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 mb-3 animate-in slide-in-from-bottom duration-700">
               <Mail className="w-3.5 h-3.5 text-orange-300" />
               <span className="text-xs text-orange-200">Newsletter</span>
             </div>
 
-            <h3 className="text-xl font-bold text-white mb-2 animate-in slide-in-from-bottom duration-700 delay-100">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 animate-in slide-in-from-bottom duration-700 delay-100">
               Get project updates in your inbox
             </h3>
-            <p className="text-gray-400 text-sm mb-6 animate-in slide-in-from-bottom duration-700 delay-150">
+            <p className="text-gray-400 text-sm sm:text-base mb-6 animate-in slide-in-from-bottom duration-700 delay-150">
               Subscribe for new project drops, tutorials, and release updates.
             </p>
 
-            <div className="sib-form max-w-xl mx-auto animate-in slide-in-from-bottom duration-700 delay-200 text-left">
+            <div className="sib-form max-w-2xl mx-auto animate-in slide-in-from-bottom duration-700 delay-200 text-left">
               <div id="sib-form-container" className="sib-form-container">
                 <div
                   id="error-message"
@@ -377,7 +454,7 @@ export default function ProjectsPage() {
 
                 <div
                   id="sib-container"
-                  className="sib-container--large sib-container--vertical rounded-2xl border border-slate-700/80 bg-slate-950/70 p-5 sm:p-6 shadow-[0_0_40px_rgba(15,23,42,0.35)] backdrop-blur"
+                  className="sib-container--large sib-container--vertical rounded-2xl border border-slate-700/80 bg-slate-950/70 p-4 sm:p-5 shadow-[0_0_40px_rgba(15,23,42,0.35)] backdrop-blur"
                   style={{ direction: "ltr" }}
                 >
                   <form
@@ -386,17 +463,16 @@ export default function ProjectsPage() {
                     data-type="subscription"
                     action="https://ab76e2eb.sibforms.com/serve/MUIFABHYsRs9I4xAk4AkXGCucrb0jrmvZABHwnCevZHYtN9px2gvwjdQm79JdNLB2bqtepMkTnZPOH51Gy64QygvCEzI6Nd_K69af1HzANFGS18dSM2ij1c8rgtUfkBAbjAr2CvmO84l7XM9Sj26VTjcZZDgAHN5T0NFX8-5A6Umnb2QnBJHXB7VbtodhCCdj_ifq_NMP99mq6zIog=="
                   >
-                    <div className="pb-4">
-                      <p className="text-2xl sm:text-3xl font-bold text-orange-400">Newsletter</p>
-                    </div>
-
-                    <div className="pb-5">
+                    <div className="space-y-1.5 pb-3 sm:pb-4">
+                      <p className="text-lg sm:text-xl font-bold text-orange-400 leading-tight">
+                        Newsletter
+                      </p>
                       <p className="text-sm text-slate-300">
                         Subscribe to our newsletter and stay updated.
                       </p>
                     </div>
 
-                    <div className="pb-3">
+                    <div className="pb-1.5 sm:pb-2.5">
                       <div className="sib-input sib-form-block">
                         <div className="form__entry entry_block">
                           <div className="form__label-row">
@@ -409,9 +485,8 @@ export default function ProjectsPage() {
                             </label>
 
                             <div className="entry__field relative">
-                              <Mail className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-300" />
                               <input
-                                className="input w-full h-11 pl-11 pr-4 rounded-xl border border-slate-700 bg-slate-900/90 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:border-orange-500/60 transition-all duration-300"
+                                className="input w-full pr-4 rounded-xl text-sm text-white placeholder:text-slate-400 focus:outline-none transition-all duration-300"
                                 type="text"
                                 id="EMAIL"
                                 name="EMAIL"
@@ -424,54 +499,33 @@ export default function ProjectsPage() {
                           </div>
 
                           <label className="entry__error entry__error--primary text-sm text-red-300" />
-                          <label className="entry__specification mt-2 block text-xs text-slate-400">
+                          <label className="entry__specification mt-1.5 block text-xs text-slate-400">
                             Provide your email address to subscribe. For e.g abc@xyz.com
                           </label>
                         </div>
                       </div>
                     </div>
 
-                    <div className="py-2 flex justify-center">
-                      <div
-                        className="g-recaptcha"
-                        id="sib-captcha"
-                        data-sitekey="6LemQq4sAAAAAGzpUm304Gh3UGPcTwKk3_1X0Vmz"
-                        data-callback="invisibleCaptchaCallback"
-                        data-size="invisible"
-                        onClick={() => window.executeCaptcha?.()}
-                      />
-                    </div>
+                    <div className="pt-2 pb-2.5 sm:pb-3.5 border-t border-slate-800/70 mt-2">
+                      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 sm:gap-4">
+                        <div
+                          className="g-recaptcha"
+                          id="sib-captcha"
+                          data-sitekey="6LemQq4sAAAAAGzpUm304Gh3UGPcTwKk3_1X0Vmz"
+                          data-callback="invisibleCaptchaCallback"
+                          data-size="invisible"
+                          data-badge="inline"
+                          onClick={() => window.executeCaptcha?.()}
+                        />
 
-                    <div className="pt-2 pb-4">
-                      <div className="sib-form-block text-left">
                         <button
-                          className="sib-form-block__button sib-form-block__button-with-loader h-11 px-6 rounded-xl bg-gradient-to-b from-orange-500 to-orange-400 text-slate-950 font-bold text-sm hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all duration-300"
+                          className="sib-form-block__button sib-form-block__button-with-loader h-11 w-full sm:w-auto px-6 rounded-xl bg-gradient-to-b from-orange-500 to-orange-400 text-slate-950 font-bold text-sm hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all duration-300"
                           form="sib-form"
                           type="submit"
                         >
-                          <svg
-                            className="icon clickable__icon progress-indicator__icon sib-hide-loader-icon"
-                            viewBox="0 0 512 512"
-                          >
-                            <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
-                          </svg>
-                          SUBSCRIBE
+                          Subscribe
                         </button>
                       </div>
-                    </div>
-
-                    <div className="border-t border-slate-800 pt-4">
-                      <p className="text-xs text-slate-300 leading-relaxed">
-                        We use Brevo as our marketing platform. By submitting this form you agree that the personal data you provided will be transferred to Brevo for processing in accordance with {" "}
-                        <a
-                          href="https://www.brevo.com/en/legal/privacypolicy/"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-orange-300 underline hover:text-orange-200 transition-colors"
-                        >
-                          Brevo&apos;s Privacy Policy.
-                        </a>
-                      </p>
                     </div>
 
                     <input
@@ -488,8 +542,8 @@ export default function ProjectsPage() {
               </div>
             </div>
 
-            <div className="mt-5">
-              <button className="px-6 py-2.5 bg-white/5 border border-white/10 rounded-lg font-semibold text-sm transition-all duration-300 hover:bg-white/10">
+            <div className="mt-5 sm:mt-6">
+              <button className="w-full sm:w-auto px-6 py-2.5 bg-white/5 border border-white/10 rounded-lg font-semibold text-sm transition-all duration-300 hover:bg-white/10">
                 Submit Your Project
               </button>
             </div>
