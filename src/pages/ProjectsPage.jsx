@@ -155,6 +155,7 @@ function CategoryCard({ category, initialOpen }) {
 
 export default function ProjectsPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isSubscribing, setIsSubscribing] = useState(false);
   const [searchParams] = useSearchParams();
   const expandId = searchParams.get("expand");
   const mergedCategories = getMergedCategories(projectCategories);
@@ -370,7 +371,7 @@ export default function ProjectsPage() {
               Subscribe for new project drops, tutorials, and release updates.
             </p>
 
-            <div className="sib-form max-w-xl mx-auto animate-in slide-in-from-bottom duration-700 delay-200 text-left">
+            <div className="sib-form max-w-2xl mx-auto animate-in slide-in-from-bottom duration-700 delay-200 text-left">
               <div id="sib-form-container" className="sib-form-container">
                 <div
                   id="error-message"
@@ -424,6 +425,7 @@ export default function ProjectsPage() {
                     method="POST"
                     data-type="subscription"
                     action="https://ab76e2eb.sibforms.com/serve/MUIFABHYsRs9I4xAk4AkXGCucrb0jrmvZABHwnCevZHYtN9px2gvwjdQm79JdNLB2bqtepMkTnZPOH51Gy64QygvCEzI6Nd_K69af1HzANFGS18dSM2ij1c8rgtUfkBAbjAr2CvmO84l7XM9Sj26VTjcZZDgAHN5T0NFX8-5A6Umnb2QnBJHXB7VbtodhCCdj_ifq_NMP99mq6zIog=="
+                    onSubmit={() => setIsSubscribing(true)}
                   >
                     <div style={{ padding: "16px 0" }}>
                       <div className="sib-form-block" style={{ fontSize: "32px", textAlign: "left", fontWeight: 700, fontFamily: '"Comic Sans MS", sans-serif', color: "#fa7b03", backgroundColor: "transparent" }}>
@@ -488,13 +490,7 @@ export default function ProjectsPage() {
                           form="sib-form"
                           type="submit"
                         >
-                          <svg
-                            className="icon clickable__icon progress-indicator__icon sib-hide-loader-icon"
-                            viewBox="0 0 512 512"
-                          >
-                            <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
-                          </svg>
-                          SUBSCRIBE
+                          Subscribe
                         </button>
                       </div>
                     </div>
