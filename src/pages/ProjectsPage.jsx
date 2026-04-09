@@ -223,29 +223,43 @@ export default function ProjectsPage() {
                url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/25c678feafdc175a70922a116c9be3e7.woff) format("woff");
         }
 
-        #sib-container input::placeholder,
+        @font-face {
+          font-display: fallback;
+          font-family: Roboto;
+          font-weight: 600;
+          src: url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/6e9caeeafb1f3491be3e32744bc30440.woff2) format("woff2"),
+               url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/71501f0d8d5aa95960f6475d5487d4c2.woff) format("woff");
+        }
+
+        @font-face {
+          font-display: fallback;
+          font-family: Roboto;
+          font-weight: 700;
+          src: url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/3ef7cf158f310cf752d5ad08cd0e7e60.woff2) format("woff2"),
+               url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/ece3a1d82f18b60bcce0211725c476aa.woff) format("woff");
+        }
+
+        #sib-container input:-ms-input-placeholder {
+          text-align: left;
+          font-family: Helvetica, sans-serif;
+          color: #c0ccda;
+        }
+
+        #sib-container input::placeholder {
+          text-align: left;
+          font-family: Helvetica, sans-serif;
+          color: #c0ccda;
+        }
+
         #sib-container textarea::placeholder {
-          color: rgb(148 163 184);
-          opacity: 1;
+          text-align: left;
+          font-family: Helvetica, sans-serif;
+          color: #c0ccda;
         }
 
-        #sib-form-container .entry__error {
-          color: rgb(252 165 165);
-          margin-top: 0.5rem;
-        }
-
-        #sib-form-container .sib-form-message-panel {
-          display: none;
-        }
-
-        #sib-form-container #success-message,
-        #sib-form-container #error-message {
-          animation: fadeIn 250ms ease-out;
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(4px); }
-          to { opacity: 1; transform: translateY(0); }
+        #sib-container a {
+          text-decoration: underline;
+          color: #2BB2FC;
         }
       `;
       document.head.appendChild(styleTag);
@@ -343,16 +357,16 @@ export default function ProjectsPage() {
 
         {/* Bottom CTA */}
         <div className="mt-12 text-center">
-          <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 mb-4 animate-in slide-in-from-bottom duration-700">
+          <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-5 sm:p-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 mb-3 animate-in slide-in-from-bottom duration-700">
               <Mail className="w-3.5 h-3.5 text-orange-300" />
               <span className="text-xs text-orange-200">Newsletter</span>
             </div>
 
-            <h3 className="text-xl font-bold text-white mb-2 animate-in slide-in-from-bottom duration-700 delay-100">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 animate-in slide-in-from-bottom duration-700 delay-100">
               Get project updates in your inbox
             </h3>
-            <p className="text-gray-400 text-sm mb-6 animate-in slide-in-from-bottom duration-700 delay-150">
+            <p className="text-gray-400 text-sm sm:text-base mb-6 animate-in slide-in-from-bottom duration-700 delay-150">
               Subscribe for new project drops, tutorials, and release updates.
             </p>
 
@@ -360,25 +374,50 @@ export default function ProjectsPage() {
               <div id="sib-form-container" className="sib-form-container">
                 <div
                   id="error-message"
-                  className="sib-form-message-panel rounded-xl border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200 mb-4 text-left"
+                  className="sib-form-message-panel"
+                  style={{
+                    fontSize: "16px",
+                    textAlign: "left",
+                    fontFamily: "Helvetica, sans-serif",
+                    color: "#661d1d",
+                    backgroundColor: "#ffeded",
+                    borderRadius: "3px",
+                    borderColor: "#ff4949",
+                    maxWidth: "540px",
+                  }}
                 >
-                  <div className="sib-form-message-panel__text">
+                  <div className="sib-form-message-panel__text sib-form-message-panel__text--center">
                     Your subscription could not be saved. Please try again.
                   </div>
                 </div>
-                <div
-                  id="success-message"
-                  className="sib-form-message-panel rounded-xl border border-green-400/40 bg-green-500/10 px-4 py-3 text-sm text-green-200 mb-4 text-left"
-                >
-                  <div className="sib-form-message-panel__text">
+                <div id="success-message" className="sib-form-message-panel" style={{
+                  fontSize: "16px",
+                  textAlign: "left",
+                  fontFamily: "Helvetica, sans-serif",
+                  color: "#085229",
+                  backgroundColor: "#e7faf0",
+                  borderRadius: "3px",
+                  borderColor: "#13ce66",
+                  maxWidth: "540px",
+                }}>
+                  <div className="sib-form-message-panel__text sib-form-message-panel__text--center">
                     Your subscription has been successful.
                   </div>
                 </div>
 
                 <div
                   id="sib-container"
-                  className="sib-container--large sib-container--vertical rounded-2xl border border-slate-700/80 bg-slate-950/70 p-5 sm:p-6 shadow-[0_0_40px_rgba(15,23,42,0.35)] backdrop-blur"
-                  style={{ direction: "ltr" }}
+                  className="sib-container--large sib-container--vertical"
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: "rgba(168,166,166,1)",
+                    maxWidth: "540px",
+                    borderRadius: "3px",
+                    borderWidth: "1px",
+                    borderColor: "#C0CCD9",
+                    borderStyle: "solid",
+                    direction: "ltr",
+                  }}
                 >
                   <form
                     id="sib-form"
@@ -386,32 +425,31 @@ export default function ProjectsPage() {
                     data-type="subscription"
                     action="https://ab76e2eb.sibforms.com/serve/MUIFABHYsRs9I4xAk4AkXGCucrb0jrmvZABHwnCevZHYtN9px2gvwjdQm79JdNLB2bqtepMkTnZPOH51Gy64QygvCEzI6Nd_K69af1HzANFGS18dSM2ij1c8rgtUfkBAbjAr2CvmO84l7XM9Sj26VTjcZZDgAHN5T0NFX8-5A6Umnb2QnBJHXB7VbtodhCCdj_ifq_NMP99mq6zIog=="
                   >
-                    <div className="pb-4">
-                      <p className="text-2xl sm:text-3xl font-bold text-orange-400">Newsletter</p>
+                    <div style={{ padding: "16px 0" }}>
+                      <div className="sib-form-block" style={{ fontSize: "32px", textAlign: "left", fontWeight: 700, fontFamily: '"Comic Sans MS", sans-serif', color: "#fa7b03", backgroundColor: "transparent" }}>
+                        <p>Newsletter</p>
+                      </div>
                     </div>
 
-                    <div className="pb-5">
-                      <p className="text-sm text-slate-300">
-                        Subscribe to our newsletter and stay updated.
-                      </p>
+                    <div style={{ padding: "16px 0" }}>
+                      <div className="sib-form-block" style={{ fontSize: "16px", textAlign: "left", fontFamily: "Helvetica, sans-serif", color: "#050505", backgroundColor: "transparent" }}>
+                        <div className="sib-text-form-block">
+                          <p>Subscribe to our newsletter and stay updated.</p>
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="pb-3">
+                    <div style={{ padding: "16px 0" }}>
                       <div className="sib-input sib-form-block">
                         <div className="form__entry entry_block">
                           <div className="form__label-row">
-                            <label
-                              className="entry__label mb-2 block text-sm font-semibold text-slate-100"
-                              htmlFor="EMAIL"
-                              data-required="*"
-                            >
+                            <label className="entry__label" style={{ fontWeight: 700, textAlign: "left", fontSize: "16px", fontFamily: "Helvetica, sans-serif", color: "#3c4858" }} htmlFor="EMAIL" data-required="*">
                               Enter your email address to subscribe
                             </label>
 
-                            <div className="entry__field relative">
-                              <Mail className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-300" />
+                            <div className="entry__field">
                               <input
-                                className="input w-full h-11 pl-11 pr-4 rounded-xl border border-slate-700 bg-slate-900/90 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:border-orange-500/60 transition-all duration-300"
+                                className="input"
                                 type="text"
                                 id="EMAIL"
                                 name="EMAIL"
@@ -423,15 +461,15 @@ export default function ProjectsPage() {
                             </div>
                           </div>
 
-                          <label className="entry__error entry__error--primary text-sm text-red-300" />
-                          <label className="entry__specification mt-2 block text-xs text-slate-400">
+                          <label className="entry__error entry__error--primary" style={{ fontSize: "16px", textAlign: "left", fontFamily: "Helvetica, sans-serif", color: "#661d1d", backgroundColor: "#ffeded", borderRadius: "3px", borderColor: "#ff4949" }} />
+                          <label className="entry__specification" style={{ fontSize: "12px", textAlign: "left", fontFamily: "Helvetica, sans-serif", color: "#8390A4" }}>
                             Provide your email address to subscribe. For e.g abc@xyz.com
                           </label>
                         </div>
                       </div>
                     </div>
 
-                    <div className="py-2 flex justify-center">
+                    <div style={{ padding: "16px 0" }}>
                       <div
                         className="g-recaptcha"
                         id="sib-captcha"
@@ -442,10 +480,11 @@ export default function ProjectsPage() {
                       />
                     </div>
 
-                    <div className="pt-2 pb-4">
-                      <div className="sib-form-block text-left">
+                    <div style={{ padding: "16px 0" }}>
+                      <div className="sib-form-block" style={{ textAlign: "left" }}>
                         <button
-                          className="sib-form-block__button sib-form-block__button-with-loader h-11 px-6 rounded-xl bg-gradient-to-b from-orange-500 to-orange-400 text-slate-950 font-bold text-sm hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all duration-300"
+                          className="sib-form-block__button sib-form-block__button-with-loader"
+                          style={{ fontSize: "16px", textAlign: "left", fontWeight: 700, fontFamily: '"Trebuchet MS", sans-serif', color: "#171515", backgroundColor: "#06e70e", borderRadius: "3px", borderWidth: "0px" }}
                           form="sib-form"
                           type="submit"
                         >
@@ -460,27 +499,24 @@ export default function ProjectsPage() {
                       </div>
                     </div>
 
-                    <div className="border-t border-slate-800 pt-4">
-                      <p className="text-xs text-slate-300 leading-relaxed">
-                        We use Brevo as our marketing platform. By submitting this form you agree that the personal data you provided will be transferred to Brevo for processing in accordance with {" "}
-                        <a
-                          href="https://www.brevo.com/en/legal/privacypolicy/"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-orange-300 underline hover:text-orange-200 transition-colors"
-                        >
-                          Brevo&apos;s Privacy Policy.
-                        </a>
-                      </p>
+                    <div style={{ padding: "16px 0" }}>
+                      <div className="sib-form__declaration" style={{ direction: "ltr" }}>
+                        <div style={{ fontSize: "14px", textAlign: "left", fontFamily: "Helvetica, sans-serif", color: "#ffffff", backgroundColor: "transparent" }}>
+                          <p>
+                            We use Brevo as our marketing platform. By submitting this form you agree that the personal data you provided will be transferred to Brevo for processing in accordance with{" "}
+                            <a href="https://www.brevo.com/en/legal/privacypolicy/" target="_blank" rel="noreferrer">
+                              Brevo&apos;s Privacy Policy.
+                            </a>
+                          </p>
+                        </div>
+                      </div>
                     </div>
 
                     <input
                       type="text"
                       name="email_address_check"
                       defaultValue=""
-                      className="hidden"
-                      tabIndex="-1"
-                      autoComplete="off"
+                      className="input--hidden"
                     />
                     <input type="hidden" name="locale" value="en" />
                   </form>
@@ -488,8 +524,8 @@ export default function ProjectsPage() {
               </div>
             </div>
 
-            <div className="mt-5">
-              <button className="px-6 py-2.5 bg-white/5 border border-white/10 rounded-lg font-semibold text-sm transition-all duration-300 hover:bg-white/10">
+            <div className="mt-5 sm:mt-6">
+              <button className="w-full sm:w-auto px-6 py-2.5 bg-white/5 border border-white/10 rounded-lg font-semibold text-sm transition-all duration-300 hover:bg-white/10">
                 Submit Your Project
               </button>
             </div>
