@@ -1,5 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import { ChevronRight, Folder, FolderOpen, FileCode, ArrowLeft, ArrowRight } from "lucide-react";
+import {
+  ChevronRight,
+  Folder,
+  FolderOpen,
+  FileCode,
+  ArrowLeft,
+  ArrowRight,
+  Mail,
+} from "lucide-react";
 import { projectCategories } from "../data/projects";
 import { getMergedCategories } from "../utils/adminProjects";
 import { Link, useSearchParams } from "react-router-dom";
@@ -150,10 +158,60 @@ export default function ProjectsPage() {
   const [searchParams] = useSearchParams();
   const expandId = searchParams.get("expand");
   const mergedCategories = getMergedCategories(projectCategories);
+  const totalPlatforms = mergedCategories.length;
+  const totalBoards = mergedCategories.reduce(
+    (count, category) => count + category.subCategories.length,
+    0,
+  );
+  const totalProjects = mergedCategories.reduce(
+    (count, category) =>
+      count +
+      category.subCategories.reduce(
+        (subCount, subCategory) => subCount + subCategory.projects.length,
+        0,
+      ),
+    0,
+  );
 
   const handleMouseMove = (e) => {
     setMousePosition({ x: e.clientX, y: e.clientY });
   };
+
+  useEffect(() => {
+    window.REQUIRED_CODE_ERROR_MESSAGE = "Please choose a country code";
+    window.LOCALE = "en";
+    window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE =
+      "The information provided is invalid. Please review the field format and try again.";
+    window.REQUIRED_ERROR_MESSAGE = "This field cannot be left blank. ";
+    window.GENERIC_INVALID_MESSAGE =
+      "The information provided is invalid. Please review the field format and try again.";
+    window.translation = {
+      common: {
+        selectedList: "{quantity} list selected",
+        selectedLists: "{quantity} lists selected",
+        selectedOption: "{quantity} selected",
+        selectedOptions: "{quantity} selected",
+      },
+    };
+    window.AUTOHIDE = Boolean(0);
+
+    if (!document.getElementById("brevo-main-script")) {
+      const script = document.createElement("script");
+      script.id = "brevo-main-script";
+      script.defer = true;
+      script.src = "https://sibforms.com/forms/end-form/build/main.js";
+      document.body.appendChild(script);
+    }
+
+    if (!document.getElementById("google-recaptcha-script")) {
+      const script = document.createElement("script");
+      script.id = "google-recaptcha-script";
+      script.async = true;
+      script.defer = true;
+      script.src = "https://www.google.com/recaptcha/api.js?hl=en";
+      document.body.appendChild(script);
+    }
+  }, []);
 
   return (
     <div
@@ -200,9 +258,9 @@ export default function ProjectsPage() {
         {/* Stats Bar */}
         <div className="grid grid-cols-3 gap-4 mb-10 animate-in slide-in-from-bottom duration-700 delay-100">
           {[
-            { label: "Platforms", value: "3" },
-            { label: "Board Types", value: "9" },
-            { label: "Projects", value: "Coming Soon" },
+            { label: "Platforms", value: totalPlatforms },
+            { label: "Board Types", value: totalBoards },
+            { label: "Projects", value: totalProjects },
           ].map((stat) => (
             <div
               key={stat.label}
@@ -230,17 +288,79 @@ export default function ProjectsPage() {
         {/* Bottom CTA */}
         <div className="mt-12 text-center">
           <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-8">
-            <h3 className="text-xl font-bold text-white mb-2">
-              More projects coming soon
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 mb-4 animate-in slide-in-from-bottom duration-700">
+              <Mail className="w-3.5 h-3.5 text-orange-300" />
+              <span className="text-xs text-orange-200">Newsletter</span>
+            </div>
+
+            <h3 className="text-xl font-bold text-white mb-2 animate-in slide-in-from-bottom duration-700 delay-100">
+              Get project updates in your inbox
             </h3>
-            <p className="text-gray-400 text-sm mb-4">
-              We're actively adding new builds across all platforms. Check back
-              regularly or follow us to get notified.
+            <p className="text-gray-400 text-sm mb-6 animate-in slide-in-from-bottom duration-700 delay-150">
+              Subscribe for new project drops, tutorials, and release updates.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <button className="px-6 py-2.5 bg-gradient-to-b from-orange-500 to-orange-400 rounded-lg font-semibold text-sm transition-all duration-300 hover:scale-105">
-                Follow for Updates
-              </button>
+
+            <form
+              id="sib-form"
+              method="POST"
+              data-type="subscription"
+              action="https://ab76e2eb.sibforms.com/serve/MUIFABHYsRs9I4xAk4AkXGCucrb0jrmvZABHwnCevZHYtN9px2gvwjdQm79JdNLB2bqtepMkTnZPOH51Gy64QygvCEzI6Nd_K69af1HzANFGS18dSM2ij1c8rgtUfkBAbjAr2CvmO84l7XM9Sj26VTjcZZDgAHN5T0NFX8-5A6Umnb2QnBJHXB7VbtodhCCdj_ifq_NMP99mq6zIog=="
+              target="_blank"
+              rel="noreferrer"
+              className="max-w-xl mx-auto animate-in slide-in-from-bottom duration-700 delay-200"
+            >
+              <div className="group flex flex-col sm:flex-row gap-3">
+                <div className="relative flex-1">
+                  <Mail className="w-4 h-4 text-gray-500 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-orange-300 transition-colors duration-300" />
+                  <input
+                    type="email"
+                    id="EMAIL"
+                    name="EMAIL"
+                    required
+                    data-required="true"
+                    autoComplete="off"
+                    placeholder="Enter your email address"
+                    className="w-full h-11 pl-11 pr-4 rounded-xl border border-slate-700 bg-slate-950/80 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:border-orange-500/50 transition-all duration-300"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="h-11 px-6 rounded-xl bg-gradient-to-b from-orange-500 to-orange-400 text-white font-semibold text-sm hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all duration-300"
+                >
+                  Subscribe
+                </button>
+              </div>
+
+              <p className="text-xs text-gray-500 mt-3 text-left sm:text-center">
+                We respect your inbox. You can unsubscribe anytime.
+              </p>
+
+              <div className="mt-4 flex justify-center">
+                <div
+                  className="g-recaptcha scale-[0.92] origin-top"
+                  id="sib-captcha"
+                  data-sitekey="6LemQq4sAAAAAGzpUm304Gh3UGPcTwKk3_1X0Vmz"
+                  data-theme="dark"
+                  data-size="normal"
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-2 text-left sm:text-center">
+                Form secured by reCAPTCHA
+              </p>
+
+              {/* Brevo-required hidden fields */}
+              <input
+                type="text"
+                name="email_address_check"
+                defaultValue=""
+                className="hidden"
+                tabIndex="-1"
+                autoComplete="off"
+              />
+              <input type="hidden" name="locale" value="en" />
+            </form>
+
+            <div className="mt-5">
               <button className="px-6 py-2.5 bg-white/5 border border-white/10 rounded-lg font-semibold text-sm transition-all duration-300 hover:bg-white/10">
                 Submit Your Project
               </button>
