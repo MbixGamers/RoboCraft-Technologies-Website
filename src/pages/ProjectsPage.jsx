@@ -155,6 +155,7 @@ function CategoryCard({ category, initialOpen }) {
 
 export default function ProjectsPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [subscribeError, setSubscribeError] = useState("");
   const [searchParams] = useSearchParams();
   const expandId = searchParams.get("expand");
   const mergedCategories = getMergedCategories(projectCategories);
