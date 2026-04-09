@@ -233,6 +233,7 @@ export default function ProjectsPage() {
           background: rgba(2, 6, 23, 0.78) !important;
           border: 1px solid rgba(51, 65, 85, 0.85) !important;
           box-shadow: 0 0 40px rgba(15, 23, 42, 0.35) !important;
+          overflow: hidden !important;
         }
 
         #sib-form-container #sib-container p,
@@ -283,10 +284,40 @@ export default function ProjectsPage() {
           border: 0 !important;
           font-weight: 700 !important;
           border-radius: 0.75rem !important;
+          min-width: 10rem !important;
+          display: inline-flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+          position: relative !important;
+          overflow: hidden !important;
         }
 
         #sib-form-container .sib-form-block__button:hover {
           filter: brightness(1.05);
+        }
+
+        #sib-form-container .sib-form-block__button .progress-indicator__icon {
+          position: absolute;
+          left: 0.9rem;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 0.95rem;
+          height: 0.95rem;
+        }
+
+        #sib-form-container #sib-captcha {
+          width: 100%;
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        #sib-form-container #sib-captcha > div {
+          max-width: 100%;
+        }
+
+        #sib-form-container .grecaptcha-badge {
+          max-width: 100% !important;
+          box-shadow: none !important;
         }
 
         #sib-form-container .entry__error {
@@ -437,7 +468,7 @@ export default function ProjectsPage() {
 
                 <div
                   id="sib-container"
-                  className="sib-container--large sib-container--vertical rounded-2xl border border-slate-700/80 bg-slate-950/70 p-4 sm:p-6 shadow-[0_0_40px_rgba(15,23,42,0.35)] backdrop-blur"
+                  className="sib-container--large sib-container--vertical rounded-2xl border border-slate-700/80 bg-slate-950/70 p-4 sm:p-5 shadow-[0_0_40px_rgba(15,23,42,0.35)] backdrop-blur"
                   style={{ direction: "ltr" }}
                 >
                   <form
@@ -446,16 +477,16 @@ export default function ProjectsPage() {
                     data-type="subscription"
                     action="https://ab76e2eb.sibforms.com/serve/MUIFABHYsRs9I4xAk4AkXGCucrb0jrmvZABHwnCevZHYtN9px2gvwjdQm79JdNLB2bqtepMkTnZPOH51Gy64QygvCEzI6Nd_K69af1HzANFGS18dSM2ij1c8rgtUfkBAbjAr2CvmO84l7XM9Sj26VTjcZZDgAHN5T0NFX8-5A6Umnb2QnBJHXB7VbtodhCCdj_ifq_NMP99mq6zIog=="
                   >
-                    <div className="space-y-2 pb-4 sm:pb-5">
-                      <p className="text-xl sm:text-2xl font-bold text-orange-400 leading-tight">
+                    <div className="space-y-1.5 pb-3 sm:pb-4">
+                      <p className="text-lg sm:text-xl font-bold text-orange-400 leading-tight">
                         Newsletter
                       </p>
-                      <p className="text-sm text-slate-300 leading-relaxed">
+                      <p className="text-sm text-slate-300">
                         Subscribe to our newsletter and stay updated.
                       </p>
                     </div>
 
-                    <div className="pb-2 sm:pb-3">
+                    <div className="pb-1.5 sm:pb-2.5">
                       <div className="sib-input sib-form-block">
                         <div className="form__entry entry_block">
                           <div className="form__label-row">
@@ -482,14 +513,14 @@ export default function ProjectsPage() {
                           </div>
 
                           <label className="entry__error entry__error--primary text-sm text-red-300" />
-                          <label className="entry__specification mt-2 block text-xs text-slate-400">
+                          <label className="entry__specification mt-1.5 block text-xs text-slate-400">
                             Provide your email address to subscribe. For e.g abc@xyz.com
                           </label>
                         </div>
                       </div>
                     </div>
 
-                    <div className="pt-1 pb-2 flex justify-center">
+                    <div className="pt-0.5 pb-2 border-t border-slate-800/70 mt-2">
                       <div
                         className="g-recaptcha"
                         id="sib-captcha"
@@ -500,7 +531,7 @@ export default function ProjectsPage() {
                       />
                     </div>
 
-                    <div className="pt-2 pb-3 sm:pb-4">
+                    <div className="pt-2 pb-2.5 sm:pb-3.5">
                       <div className="sib-form-block text-left">
                         <button
                           className="sib-form-block__button sib-form-block__button-with-loader h-11 w-full sm:w-auto px-6 rounded-xl bg-gradient-to-b from-orange-500 to-orange-400 text-slate-950 font-bold text-sm hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all duration-300"
@@ -518,7 +549,7 @@ export default function ProjectsPage() {
                       </div>
                     </div>
 
-                    <div className="border-t border-slate-800 pt-3 sm:pt-4">
+                    <div className="border-t border-slate-800 pt-2.5 sm:pt-3.5">
                       <p className="text-xs text-slate-300 leading-relaxed">
                         We use Brevo as our marketing platform. By submitting this form you agree that the personal data you provided will be transferred to Brevo for processing in accordance with {" "}
                         <a
