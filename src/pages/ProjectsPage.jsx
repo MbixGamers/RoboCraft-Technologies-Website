@@ -156,7 +156,6 @@ function CategoryCard({ category, initialOpen }) {
 export default function ProjectsPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [subscribeError, setSubscribeError] = useState("");
-  const [subscribeState, setSubscribeState] = useState("idle");
   const [searchParams] = useSearchParams();
   const expandId = searchParams.get("expand");
   const mergedCategories = getMergedCategories(projectCategories);
@@ -217,29 +216,13 @@ export default function ProjectsPage() {
 
   const handleSubscribe = (e) => {
     setSubscribeError("");
-    const captchaResponse = window.grecaptcha?.getResponse();
+    const captchaResponse =
+      window.grecaptcha && typeof window.grecaptcha.getResponse === "function"
+        ? window.grecaptcha.getResponse()
+        : "";
     if (!captchaResponse) {
       e.preventDefault();
       setSubscribeError("Please complete the reCAPTCHA before subscribing.");
-  const handleSubscribe = async (e) => {
-    e.preventDefault();
-    setSubscribeState("submitting");
-
-    try {
-      const formData = new FormData(e.currentTarget);
-      await fetch(
-        "https://ab76e2eb.sibforms.com/serve/MUIFABHYsRs9I4xAk4AkXGCucrb0jrmvZABHwnCevZHYtN9px2gvwjdQm79JdNLB2bqtepMkTnZPOH51Gy64QygvCEzI6Nd_K69af1HzANFGS18dSM2ij1c8rgtUfkBAbjAr2CvmO84l7XM9Sj26VTjcZZDgAHN5T0NFX8-5A6Umnb2QnBJHXB7VbtodhCCdj_ifq_NMP99mq6zIog==",
-        {
-          method: "POST",
-          mode: "no-cors",
-          body: formData,
-        },
-      );
-
-      e.currentTarget.reset();
-      setSubscribeState("success");
-    } catch {
-      setSubscribeState("error");
     }
   };
 
@@ -359,10 +342,6 @@ export default function ProjectsPage() {
                   className="h-11 px-6 rounded-xl bg-gradient-to-b from-orange-500 to-orange-400 text-white font-semibold text-sm hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all duration-300"
                 >
                   Subscribe
-                  disabled={subscribeState === "submitting"}
-                  className="h-11 px-6 rounded-xl bg-gradient-to-b from-orange-500 to-orange-400 text-white font-semibold text-sm hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all duration-300"
-                >
-                  {subscribeState === "submitting" ? "Subscribing..." : "Subscribe"}
                 </button>
               </div>
 
@@ -385,14 +364,6 @@ export default function ProjectsPage() {
               {subscribeError && (
                 <p className="text-xs text-red-400 mt-2 text-left sm:text-center">
                   {subscribeError}
-              {subscribeState === "success" && (
-                <p className="text-xs text-green-400 mt-2 text-left sm:text-center">
-                  Subscription successful. Please check your inbox.
-                </p>
-              )}
-              {subscribeState === "error" && (
-                <p className="text-xs text-red-400 mt-2 text-left sm:text-center">
-                  Could not subscribe right now. Please try again.
                 </p>
               )}
 
