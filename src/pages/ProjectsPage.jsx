@@ -155,6 +155,7 @@ function CategoryCard({ category, initialOpen }) {
 
 export default function ProjectsPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isSubscribing, setIsSubscribing] = useState(false);
   const [searchParams] = useSearchParams();
   const expandId = searchParams.get("expand");
   const mergedCategories = getMergedCategories(projectCategories);
@@ -296,22 +297,8 @@ export default function ProjectsPage() {
           filter: brightness(1.05);
         }
 
-        #sib-form-container .sib-form-block__button .progress-indicator__icon {
-          position: absolute;
-          left: 0.9rem;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 0.95rem;
-          height: 0.95rem;
-        }
-
         #sib-form-container #sib-captcha {
-          width: 100%;
-          display: flex;
-          justify-content: flex-end;
-        }
-
-        #sib-form-container #sib-captcha > div {
+          width: fit-content;
           max-width: 100%;
         }
 
@@ -476,6 +463,7 @@ export default function ProjectsPage() {
                     method="POST"
                     data-type="subscription"
                     action="https://ab76e2eb.sibforms.com/serve/MUIFABHYsRs9I4xAk4AkXGCucrb0jrmvZABHwnCevZHYtN9px2gvwjdQm79JdNLB2bqtepMkTnZPOH51Gy64QygvCEzI6Nd_K69af1HzANFGS18dSM2ij1c8rgtUfkBAbjAr2CvmO84l7XM9Sj26VTjcZZDgAHN5T0NFX8-5A6Umnb2QnBJHXB7VbtodhCCdj_ifq_NMP99mq6zIog=="
+                    onSubmit={() => setIsSubscribing(true)}
                   >
                     <div className="space-y-1.5 pb-3 sm:pb-4">
                       <p className="text-lg sm:text-xl font-bold text-orange-400 leading-tight">
@@ -520,47 +508,26 @@ export default function ProjectsPage() {
                       </div>
                     </div>
 
-                    <div className="pt-0.5 pb-2 border-t border-slate-800/70 mt-2">
-                      <div
-                        className="g-recaptcha"
-                        id="sib-captcha"
-                        data-sitekey="6LemQq4sAAAAAGzpUm304Gh3UGPcTwKk3_1X0Vmz"
-                        data-callback="invisibleCaptchaCallback"
-                        data-size="invisible"
-                        onClick={() => window.executeCaptcha?.()}
-                      />
-                    </div>
+                    <div className="pt-2 pb-2.5 sm:pb-3.5 border-t border-slate-800/70 mt-2">
+                      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 sm:gap-4">
+                        <div
+                          className="g-recaptcha"
+                          id="sib-captcha"
+                          data-sitekey="6LemQq4sAAAAAGzpUm304Gh3UGPcTwKk3_1X0Vmz"
+                          data-callback="invisibleCaptchaCallback"
+                          data-size="invisible"
+                          data-badge="inline"
+                          onClick={() => window.executeCaptcha?.()}
+                        />
 
-                    <div className="pt-2 pb-2.5 sm:pb-3.5">
-                      <div className="sib-form-block text-left">
                         <button
                           className="sib-form-block__button sib-form-block__button-with-loader h-11 w-full sm:w-auto px-6 rounded-xl bg-gradient-to-b from-orange-500 to-orange-400 text-slate-950 font-bold text-sm hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(249,115,22,0.35)] transition-all duration-300"
                           form="sib-form"
                           type="submit"
                         >
-                          <svg
-                            className="icon clickable__icon progress-indicator__icon sib-hide-loader-icon"
-                            viewBox="0 0 512 512"
-                          >
-                            <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
-                          </svg>
-                          SUBSCRIBE
+                          {isSubscribing ? "Subscribing..." : "Subscribe"}
                         </button>
                       </div>
-                    </div>
-
-                    <div className="border-t border-slate-800 pt-2.5 sm:pt-3.5">
-                      <p className="text-xs text-slate-300 leading-relaxed">
-                        We use Brevo as our marketing platform. By submitting this form you agree that the personal data you provided will be transferred to Brevo for processing in accordance with {" "}
-                        <a
-                          href="https://www.brevo.com/en/legal/privacypolicy/"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-orange-300 underline hover:text-orange-200 transition-colors"
-                        >
-                          Brevo&apos;s Privacy Policy.
-                        </a>
-                      </p>
                     </div>
 
                     <input
